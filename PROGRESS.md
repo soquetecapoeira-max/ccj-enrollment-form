@@ -15,12 +15,10 @@
 - [x] 支払い方法の表示を「クレジットカード(PayPal)」に変更済み
 - [x] 送信ボタンの不具合修正済み（type="submit" → type="button"）
 
-## まだやっていないこと
+## 完了！
 
-- [ ] **テスト送信**（フォームに入力 → スプレッドシートにデータが入るか確認）
-- [ ] **GitHub Pages で公開**（URLを発行して、メールで送れるようにする）
-  - GitHub のユーザー名が必要
-  - 手順: git init → push → Settings > Pages で有効化
+- [x] **テスト送信** — スプレッドシートへのデータ保存確認済み
+- [x] **GitHub Pages で公開** — URL発行済み
 
 ---
 
@@ -60,9 +58,16 @@
 
 ---
 
-## 次回やること
+## 公開URL
 
-1. フォームのテスト送信を行う
-2. GitHub ユーザー名を確認
-3. GitHub Pages にデプロイしてURLを発行
-4. 発行したURLを体験者へのメールテンプレートに組み込む
+https://soquetecapoeira-max.github.io/ccj-enrollment-form/
+
+## 今後の変更について
+
+index.html を編集した後、以下のコマンドで更新を反映できます：
+```
+cd /Users/kuboyamatakeshi/Desktop/GitHub/ccj-enrollment-form
+git add .
+git commit -m "変更内容のメモ"
+git push
+```
