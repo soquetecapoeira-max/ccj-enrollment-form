@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>入会申し込み | CCJ.CAPOEIRA OSAKA</title>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+    :root {
+      --green: #00854A;
+      --green-light: #00A85A;
+      --yellow: #F5C518;
+      --yellow-light: #FFE066;
+      --blue: #002776;
+      --bg: #FAFAF7;
+      --card: #FFFFFF;
+      --text: #1A1A1A;
+      --text-muted: #6B7280;
+      --border: #E5E7EB;
+      --radius: 12px;
+      --shadow: 0 1px 3px rgba(0,0,0,.08), 0 4px 12px rgba(0,0,0,.04);
+      --shadow-lg: 0 4px 6px rgba(0,0,0,.07), 0 10px 40px rgba(0,0,0,.08);
+      --transition: .25s cubic-bezier(.4,0,.2,1);
+    }
+
+    body {
+      font-family: "Hiragino Kaku Gothic ProN","Hiragino Sans",Meiryo,"Noto Sans JP",sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    /* ── Hero Header ── */
+    .hero {
+      background: linear-gradient(135deg, var(--green) 0%, var(--green-light) 50%, var(--yellow) 100%);
+      padding: 48px 24px 56px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 80%, rgba(255,255,255,.12) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255,255,255,.08) 0%, transparent 50%);
+    }
+    .hero-content { position: relative; z-index: 1; }
+    .hero-logo {
+      font-size: 14px;
+      font-weight: 700;
+      color: rgba(255,255,255,.9);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .hero h1 {
+      font-size: clamp(24px, 5vw, 36px);
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 8px;
+      text-shadow: 0 2px 8px rgba(0,0,0,.15);
+    }
+    .hero p {
+      color: rgba(255,255,255,.9);
+      font-size: 15px;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    /* ── Container ── */
+    .container {
+      max-width: 640px;
+      margin: -32px auto 48px;
+      padding: 0 16px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ── Card ── */
+    .form-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      padding: 36px 28px;
+      margin-bottom: 20px;
+    }
+    @media (max-width: 480px) {
+      .form-card { padding: 28px 20px; }
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--green);
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--yellow);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-title .icon {
+      width: 28px;
+      height: 28px;
+      background: var(--green);
+      color: #fff;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    /* ── Course Cards ── */
+    .course-grid {
+      display: grid;
+      gap: 12px;
+    }
+    .course-option {
+      position: relative;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 16px 16px 48px;
+      cursor: pointer;
+      transition: var(--transition);
+      background: #fff;
+    }
+    .course-option:hover {
+      border-color: var(--green-light);
+      background: #F0FDF4;
+    }
+    .course-option.selected {
+      border-color: var(--green);
+      background: #F0FDF4;
+      box-shadow: 0 0 0 1px var(--green);
+    }
+    .course-option input[type="radio"] {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      accent-color: var(--green);
+      width: 18px;
+      height: 18px;
+    }
+    .course-name {
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--text);
+    }
+    .course-detail {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+    .course-price {
+      font-weight: 800;
+      color: var(--green);
+      font-size: 15px;
+      margin-top: 4px;
+    }
+
+    /* ── Form Fields ── */
+    .field-group {
+      margin-bottom: 20px;
+    }
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 480px) {
+      .field-row { grid-template-columns: 1fr; gap: 12px; }
+    }
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    label .required {
+      color: #EF4444;
+      font-size: 11px;
+      margin-left: 4px;
+      font-weight: 700;
+    }
+    label .optional {
+      color: var(--text-muted);
+      font-size: 11px;
+      margin-left: 4px;
+      font-weight: 400;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="date"],
+    select {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-size: 15px;
+      font-family: inherit;
+      color: var(--text);
+      background: #fff;
+      transition: var(--transition);
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+    input:focus, select:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px rgba(0,133,74,.12);
+    }
+    input.error, select.error {
+      border-color: #EF4444;
+      box-shadow: 0 0 0 3px rgba(239,68,68,.1);
+    }
+    .error-msg {
+      color: #EF4444;
+      font-size: 12px;
+      margin-top: 4px;
+      display: none;
+    }
+    .error-msg.show { display: block; }
+
+    select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M6 8L1 3h10z' fill='%236B7280'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 36px;
+    }
+
+    /* ── Payment Options ── */
+    .payment-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 10px;
+    }
+    .payment-option {
+      position: relative;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 14px 14px 42px;
+      cursor: pointer;
+      transition: var(--transition);
+      background: #fff;
+    }
+    .payment-option:hover {
+      border-color: var(--green-light);
+    }
+    .payment-option.selected {
+      border-color: var(--green);
+      background: #F0FDF4;
+      box-shadow: 0 0 0 1px var(--green);
+    }
+    .payment-option.disabled {
+      opacity: .4;
+      pointer-events: none;
+    }
+    .payment-option input[type="radio"] {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      accent-color: var(--green);
+      width: 16px;
+      height: 16px;
+    }
+    .payment-label {
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    /* ── Submit ── */
+    .submit-btn {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, var(--green) 0%, var(--green-light) 100%);
+      color: #fff;
+      font-size: 16px;
+      font-weight: 700;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: var(--transition);
+      letter-spacing: 1px;
+      position: relative;
+      overflow: hidden;
+    }
+    .submit-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(0,133,74,.3);
+    }
+    .submit-btn:active {
+      transform: translateY(0);
+    }
+    .submit-btn:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* ── Privacy ── */
+    .privacy-note {
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 16px;
+      line-height: 1.8;
+    }
+    .privacy-note a {
+      color: var(--green);
+      text-decoration: underline;
+    }
+
+    /* ── Confirmation Overlay ── */
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .overlay.active { display: flex; }
+    .confirm-card {
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      max-width: 560px;
+      width: 100%;
+      max-height: 80vh;
+      overflow-y: auto;
+      padding: 32px 28px;
+    }
+    .confirm-card h2 {
+      font-size: 20px;
+      color: var(--green);
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .confirm-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .confirm-table tr { border-bottom: 1px solid var(--border); }
+    .confirm-table th {
+      text-align: left;
+      padding: 10px 8px;
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 600;
+      width: 120px;
+      vertical-align: top;
+    }
+    .confirm-table td {
+      padding: 10px 8px;
+      font-size: 14px;
+    }
+    .confirm-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+    }
+    .btn-back {
+      flex: 1;
+      padding: 12px;
+      background: #F3F4F6;
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .btn-back:hover { background: #E5E7EB; }
+    .btn-confirm {
+      flex: 2;
+      padding: 12px;
+      background: linear-gradient(135deg, var(--green), var(--green-light));
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .btn-confirm:hover {
+      box-shadow: 0 4px 12px rgba(0,133,74,.3);
+    }
+    .btn-confirm:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+    }
+
+    /* ── Success Screen ── */
+    .success-screen {
+      display: none;
+      text-align: center;
+      padding: 60px 24px;
+    }
+    .success-screen.active { display: block; }
+    .success-icon {
+      width: 80px;
+      height: 80px;
+      background: var(--green);
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      animation: popIn .5s cubic-bezier(.4,0,.2,1);
+    }
+    .success-icon svg { width: 40px; height: 40px; }
+    @keyframes popIn {
+      0% { transform: scale(0); }
+      70% { transform: scale(1.15); }
+      100% { transform: scale(1); }
+    }
+    .success-screen h2 {
+      font-size: 24px;
+      color: var(--green);
+      margin-bottom: 12px;
+    }
+    .success-screen p {
+      color: var(--text-muted);
+      max-width: 400px;
+      margin: 0 auto 24px;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      text-align: center;
+      padding: 24px;
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+    .footer a { color: var(--green); text-decoration: none; }
+    .footer a:hover { text-decoration: underline; }
+
+    /* ── Loading Spinner ── */
+    .spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 2.5px solid rgba(255,255,255,.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin .6s linear infinite;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Postal Code ── */
+    .postal-row {
+      display: flex;
+      gap: 10px;
+      align-items: flex-end;
+    }
+    .postal-row .field-group { flex: 1; margin-bottom: 0; }
+    .postal-btn {
+      padding: 10px 16px;
+      background: var(--yellow);
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 700;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: var(--transition);
+      white-space: nowrap;
+      height: 42px;
+    }
+    .postal-btn:hover { background: var(--yellow-light); }
+  </style>
+</head>
+<body>
+
+  <!-- ── Hero ── -->
+  <header class="hero">
+    <div class="hero-content">
+      <div class="hero-logo">CCJ.CAPOEIRA OSAKA</div>
+      <h1>入会申し込みフォーム</h1>
+      <p>コハダン・ジ・コンタス大阪へようこそ！<br>以下の項目をご記入の上、送信してください。</p>
+    </div>
+  </header>
+
+  <!-- ── Form ── -->
+  <main class="container" id="formContainer">
+    <form id="enrollForm" novalidate>
+
+      <!-- Course Selection -->
+      <div class="form-card">
+        <div class="section-title"><span class="icon">1</span>コース選択</div>
+        <div class="course-grid">
+          <label class="course-option" data-course="beginner">
+            <input type="radio" name="course" value="ビギナーコース" required>
+            <div class="course-name">ビギナーコース</div>
+            <div class="course-detail">1ヶ月に4回まで受講可能</div>
+            <div class="course-price">¥6,700 / 月</div>
+          </label>
+          <label class="course-option" data-course="advance">
+            <input type="radio" name="course" value="アドバンスコース">
+            <div class="course-name">アドバンスコース</div>
+            <div class="course-detail">1ヶ月に8回まで受講可能</div>
+            <div class="course-price">¥9,400 / 月</div>
+          </label>
+          <label class="course-option" data-course="pro">
+            <input type="radio" name="course" value="プロコース">
+            <div class="course-name">プロコース</div>
+            <div class="course-detail">1ヶ月無制限で参加可能</div>
+            <div class="course-price">¥13,000 / 月</div>
+          </label>
+          <label class="course-option" data-course="kids">
+            <input type="radio" name="course" value="キッズクラス">
+            <div class="course-name">キッズクラス</div>
+            <div class="course-detail">最大週に2回まで参加可能</div>
+            <div class="course-price">¥5,000 / 月</div>
+          </label>
+          <label class="course-option" data-course="dropin">
+            <input type="radio" name="course" value="ドロップイン">
+            <div class="course-name">ドロップイン</div>
+            <div class="course-detail">都度参加（現金のみ）</div>
+            <div class="course-price">¥2,500 / 回</div>
+          </label>
+        </div>
+        <div class="error-msg" id="courseError">コースを選択してください</div>
+      </div>
+
+      <!-- Personal Info -->
+      <div class="form-card">
+        <div class="section-title"><span class="icon">2</span>お申し込み者情報</div>
+
+        <div class="field-row">
+          <div class="field-group">
+            <label for="name">氏名<span class="required">必須</span></label>
+            <input type="text" id="name" name="name" placeholder="山田 太郎" required>
+            <div class="error-msg">氏名を入力してください</div>
+          </div>
+          <div class="field-group">
+            <label for="furigana">フリガナ<span class="required">必須</span></label>
+            <input type="text" id="furigana" name="furigana" placeholder="ヤマダ タロウ" required>
+            <div class="error-msg">フリガナを入力してください</div>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field-group">
+            <label for="birthday">生年月日<span class="required">必須</span></label>
+            <input type="date" id="birthday" name="birthday" required>
+            <div class="error-msg">生年月日を入力してください</div>
+          </div>
+          <div class="field-group">
+            <label for="tel">電話番号<span class="required">必須</span></label>
+            <input type="tel" id="tel" name="tel" placeholder="090-1234-5678" required>
+            <div class="error-msg">電話番号を入力してください</div>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="email">メールアドレス<span class="required">必須</span></label>
+          <input type="email" id="email" name="email" placeholder="example@email.com" required>
+          <div class="error-msg">正しいメールアドレスを入力してください</div>
+        </div>
+
+        <div class="postal-row" style="margin-bottom:20px">
+          <div class="field-group">
+            <label for="postal">郵便番号<span class="required">必須</span></label>
+            <input type="text" id="postal" name="postal" placeholder="530-0001" maxlength="8" required>
+            <div class="error-msg">郵便番号を入力してください</div>
+          </div>
+          <button type="button" class="postal-btn" onclick="lookupPostal()">住所検索</button>
+        </div>
+
+        <div class="field-group">
+          <label for="address1">住所1（市区町村・番地）<span class="required">必須</span></label>
+          <input type="text" id="address1" name="address1" placeholder="大阪市北区梅田1-2-3" required>
+          <div class="error-msg">住所を入力してください</div>
+        </div>
+
+        <div class="field-group">
+          <label for="address2">住所2（建物名・部屋番号）<span class="optional">任意</span></label>
+          <input type="text" id="address2" name="address2" placeholder="○○マンション 101号室">
+        </div>
+
+        <div class="field-group">
+          <label for="guardian">保護者氏名<span class="optional" id="guardianTag">任意</span></label>
+          <input type="text" id="guardian" name="guardian" placeholder="未成年の方はご記入ください">
+          <div class="error-msg">保護者氏名を入力してください</div>
+        </div>
+      </div>
+
+      <!-- Payment -->
+      <div class="form-card" id="paymentCard">
+        <div class="section-title"><span class="icon">3</span>お支払い方法</div>
+        <p id="paymentNote" style="font-size:13px;color:var(--text-muted);margin-bottom:16px;"></p>
+        <div class="payment-grid" id="paymentGrid">
+          <label class="payment-option" data-method="paypal" id="optPaypal">
+            <input type="radio" name="payment" value="クレジットカード(PayPal)">
+            <span class="payment-label">クレジットカード(PayPal)</span>
+          </label>
+          <label class="payment-option" data-method="bank" id="optBank">
+            <input type="radio" name="payment" value="口座振替">
+            <span class="payment-label">口座振替</span>
+          </label>
+          <label class="payment-option" data-method="cash" id="optCash">
+            <input type="radio" name="payment" value="現金">
+            <span class="payment-label">現金</span>
+          </label>
+        </div>
+        <div class="error-msg" id="paymentError">お支払い方法を選択してください</div>
+      </div>
+
+      <!-- Submit -->
+      <div class="form-card" style="text-align:center">
+        <button type="button" class="submit-btn" id="submitBtn">入力内容を確認する</button>
+        <div class="privacy-note">
+          送信いただいた個人情報は、入会手続きおよびご連絡の目的でのみ使用いたします。<br>
+          <a href="https://cordao.org/" target="_blank">CCJ.CAPOEIRA OSAKA</a> プライバシーポリシーに同意の上、送信してください。
+        </div>
+      </div>
+    </form>
+  </main>
+
+  <!-- ── Confirmation Overlay ── -->
+  <div class="overlay" id="confirmOverlay">
+    <div class="confirm-card">
+      <h2>入力内容のご確認</h2>
+      <table class="confirm-table" id="confirmTable"></table>
+      <div class="confirm-actions">
+        <button type="button" class="btn-back" id="btnBack">修正する</button>
+        <button type="button" class="btn-confirm" id="btnConfirm">この内容で申し込む</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Success Screen ── -->
+  <div class="container">
+    <div class="form-card success-screen" id="successScreen">
+      <div class="success-icon">
+        <svg fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+      </div>
+      <h2>お申し込みありがとうございます！</h2>
+      <p>入会申し込みを受け付けました。確認のご連絡を差し上げますので、しばらくお待ちください。</p>
+      <p style="font-size:13px;color:var(--text-muted)">
+        ご不明な点がございましたら<br>
+        <strong>TEL: 050-3636-3410</strong> までお問い合わせください。
+      </p>
+    </div>
+  </div>
+
+  <footer class="footer">
+    &copy; 2026 <a href="https://cordao.org/" target="_blank">CCJ.CAPOEIRA OSAKA</a> — コハダン・ジ・コンタス大阪
+  </footer>
+
+<script>
+(function() {
+  const form = document.getElementById('enrollForm');
+  const formContainer = document.getElementById('formContainer');
+  const confirmOverlay = document.getElementById('confirmOverlay');
+  const confirmTable = document.getElementById('confirmTable');
+  const successScreen = document.getElementById('successScreen');
+  const btnBack = document.getElementById('btnBack');
+  const btnConfirm = document.getElementById('btnConfirm');
+  const submitBtn = document.getElementById('submitBtn');
+
+  // ─── Google Apps Script Web App URL ───
+  // 下記のURLをGoogle Apps ScriptのデプロイURLに差し替えてください
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxrVHm38s5AjyAVRdQEeIRBtjZAQ4tnCT2deRMDx0VC7XaiZtpkWoboaPlBIlnBDz3v4g/exec';
+
+  // ─── Course Selection ───
+  const courseOptions = document.querySelectorAll('.course-option');
+  courseOptions.forEach(opt => {
+    opt.addEventListener('click', function() {
+      courseOptions.forEach(o => o.classList.remove('selected'));
+      this.classList.add('selected');
+      this.querySelector('input').checked = true;
+      document.getElementById('courseError').classList.remove('show');
+      updatePaymentOptions();
+      updateGuardianField();
+    });
+  });
+
+  function updatePaymentOptions() {
+    const selected = document.querySelector('input[name="course"]:checked');
+    if (!selected) return;
+
+    const course = selected.closest('.course-option').dataset.course;
+    const paypal = document.getElementById('optPaypal');
+    const bank = document.getElementById('optBank');
+    const cash = document.getElementById('optCash');
+    const note = document.getElementById('paymentNote');
+
+    document.querySelectorAll('.payment-option').forEach(p => {
+      p.classList.remove('selected', 'disabled');
+      p.querySelector('input').checked = false;
+    });
+
+    if (course === 'dropin') {
+      paypal.classList.add('disabled');
+      bank.classList.add('disabled');
+      cash.classList.remove('disabled');
+      cash.classList.add('selected');
+      cash.querySelector('input').checked = true;
+      note.textContent = 'ドロップインは現金のみのお支払いとなります。';
+    } else {
+      paypal.classList.remove('disabled');
+      bank.classList.remove('disabled');
+      cash.classList.add('disabled');
+      note.textContent = 'クレジットカード(PayPal)または口座振替のご登録が必要です。';
+    }
+  }
+
+  function updateGuardianField() {
+    const selected = document.querySelector('input[name="course"]:checked');
+    if (!selected) return;
+    const course = selected.closest('.course-option').dataset.course;
+    const tag = document.getElementById('guardianTag');
+    if (course === 'kids') {
+      tag.textContent = '必須';
+      tag.className = 'required';
+    } else {
+      tag.textContent = '任意';
+      tag.className = 'optional';
+    }
+  }
+
+  // ─── Payment Selection ───
+  document.querySelectorAll('.payment-option').forEach(opt => {
+    opt.addEventListener('click', function() {
+      if (this.classList.contains('disabled')) return;
+      document.querySelectorAll('.payment-option').forEach(o => o.classList.remove('selected'));
+      this.classList.add('selected');
+      this.querySelector('input').checked = true;
+      document.getElementById('paymentError').classList.remove('show');
+    });
+  });
+
+  // ─── Postal Code Lookup (zipcloud API) ───
+  window.lookupPostal = function() {
+    const postal = document.getElementById('postal').value.replace(/[^0-9]/g, '');
+    if (postal.length !== 7) {
+      alert('7桁の郵便番号を入力してください');
+      return;
+    }
+    fetch('https://zipcloud.ibsnet.co.jp/api/search?zipcode=' + postal)
+      .then(r => r.json())
+      .then(data => {
+        if (data.results) {
+          const r = data.results[0];
+          document.getElementById('address1').value = r.address1 + r.address2 + r.address3;
+          document.getElementById('address1').focus();
+        } else {
+          alert('該当する住所が見つかりませんでした');
+        }
+      })
+      .catch(() => alert('住所検索に失敗しました'));
+  };
+
+  // ─── Validation ───
+  function validate() {
+    let valid = true;
+
+    if (!document.querySelector('input[name="course"]:checked')) {
+      document.getElementById('courseError').classList.add('show');
+      valid = false;
+    }
+
+    const required = form.querySelectorAll('[required]:not([name="course"])');
+    required.forEach(input => {
+      const errMsg = input.parentElement.querySelector('.error-msg');
+      if (!input.value.trim()) {
+        input.classList.add('error');
+        if (errMsg) errMsg.classList.add('show');
+        valid = false;
+      } else {
+        input.classList.remove('error');
+        if (errMsg) errMsg.classList.remove('show');
+      }
+    });
+
+    const email = document.getElementById('email');
+    if (email.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
+      email.classList.add('error');
+      email.parentElement.querySelector('.error-msg').classList.add('show');
+      valid = false;
+    }
+
+    if (!document.querySelector('input[name="payment"]:checked')) {
+      document.getElementById('paymentError').classList.add('show');
+      valid = false;
+    }
+
+    const course = document.querySelector('input[name="course"]:checked');
+    if (course && course.closest('.course-option').dataset.course === 'kids') {
+      const guardian = document.getElementById('guardian');
+      if (!guardian.value.trim()) {
+        guardian.classList.add('error');
+        guardian.parentElement.querySelector('.error-msg').classList.add('show');
+        valid = false;
+      }
+    }
+
+    return valid;
+  }
+
+  // ─── Clear errors on input ───
+  form.querySelectorAll('input, select').forEach(el => {
+    el.addEventListener('input', function() {
+      this.classList.remove('error');
+      const msg = this.parentElement.querySelector('.error-msg');
+      if (msg) msg.classList.remove('show');
+    });
+  });
+
+  // ─── Collect Data ───
+  function collectData() {
+    const now = new Date();
+    const dateStr = now.getFullYear() + '/' + (now.getMonth()+1) + '/' + now.getDate()
+                    + ' ' + now.getHours() + ':' + String(now.getMinutes()).padStart(2,'0');
+    return {
+      '入会申込日': dateStr,
+      'コース': document.querySelector('input[name="course"]:checked').value,
+      '氏名': document.getElementById('name').value.trim(),
+      'フリガナ': document.getElementById('furigana').value.trim(),
+      '生年月日': document.getElementById('birthday').value,
+      '電話番号': document.getElementById('tel').value.trim(),
+      'メールアドレス': document.getElementById('email').value.trim(),
+      '郵便番号': document.getElementById('postal').value.trim(),
+      '住所1': document.getElementById('address1').value.trim(),
+      '住所2': document.getElementById('address2').value.trim(),
+      '保護者氏名': document.getElementById('guardian').value.trim(),
+      '支払い方法': document.querySelector('input[name="payment"]:checked').value
+    };
+  }
+
+  // ─── Show Confirmation ───
+  function showConfirmation(data) {
+    let html = '';
+    const labels = {
+      '入会申込日':'申込日時','コース':'コース','氏名':'氏名','フリガナ':'フリガナ',
+      '生年月日':'生年月日','電話番号':'電話番号','メールアドレス':'メールアドレス',
+      '郵便番号':'郵便番号','住所1':'住所1','住所2':'住所2','保護者氏名':'保護者氏名','支払い方法':'支払い方法'
+    };
+    for (const [key, label] of Object.entries(labels)) {
+      if (!data[key]) continue;
+      html += '<tr><th>' + label + '</th><td>' + escapeHtml(data[key]) + '</td></tr>';
+    }
+    confirmTable.innerHTML = html;
+    confirmOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function escapeHtml(str) {
+    const d = document.createElement('div');
+    d.textContent = str;
+    return d.innerHTML;
+  }
+
+  // ─── Form Submit (show confirmation) ───
+  submitBtn.addEventListener('click', function() {
+    if (!validate()) {
+      const firstError = form.querySelector('.error, .error-msg.show');
+      if (firstError) firstError.scrollIntoView({ behavior:'smooth', block:'center' });
+      return;
+    }
+    showConfirmation(collectData());
+  });
+
+  // ─── Back Button ───
+  btnBack.addEventListener('click', function() {
+    confirmOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+  });
+
+  // ─── Confirm & Send ───
+  btnConfirm.addEventListener('click', function() {
+    btnConfirm.disabled = true;
+    btnConfirm.innerHTML = '<span class="spinner"></span>送信中...';
+
+    const data = collectData();
+
+    if (!SCRIPT_URL) {
+      // Google Apps Script URL が未設定の場合はデモモード
+      console.log('送信データ:', data);
+      setTimeout(showSuccess, 1200);
+      return;
+    }
+
+    fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    })
+    .then(() => showSuccess())
+    .catch(err => {
+      console.error(err);
+      alert('送信に失敗しました。お手数ですが、再度お試しください。');
+      btnConfirm.disabled = false;
+      btnConfirm.textContent = 'この内容で申し込む';
+    });
+  });
+
+  function showSuccess() {
+    confirmOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+    formContainer.style.display = 'none';
+    successScreen.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+})();
+</script>
+</body>
+</html>
