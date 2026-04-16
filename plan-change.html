@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>プラン変更のお手続き | CCJ.CAPOEIRA OSAKA</title>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root {
+      --green: #00854A;
+      --green-light: #00A85A;
+      --yellow: #F5C518;
+      --yellow-light: #FFE066;
+      --bg: #FAFAF7;
+      --card: #FFFFFF;
+      --text: #1A1A1A;
+      --text-muted: #6B7280;
+      --border: #E5E7EB;
+      --radius: 12px;
+      --shadow-lg: 0 4px 6px rgba(0,0,0,.07), 0 10px 40px rgba(0,0,0,.08);
+      --transition: .25s cubic-bezier(.4,0,.2,1);
+    }
+    body {
+      font-family: "Hiragino Kaku Gothic ProN","Hiragino Sans",Meiryo,"Noto Sans JP",sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+    .hero {
+      background: linear-gradient(135deg, var(--green) 0%, var(--green-light) 50%, var(--yellow) 100%);
+      padding: 48px 24px 56px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 80%, rgba(255,255,255,.12) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255,255,255,.08) 0%, transparent 50%);
+    }
+    .hero-content { position: relative; z-index: 1; }
+    .hero-logo {
+      font-size: 14px;
+      font-weight: 700;
+      color: rgba(255,255,255,.9);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .hero h1 {
+      font-size: clamp(22px, 5vw, 32px);
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 8px;
+      text-shadow: 0 2px 8px rgba(0,0,0,.15);
+    }
+    .hero p {
+      color: rgba(255,255,255,.9);
+      font-size: 14px;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+    .hero-note {
+      margin-top: 14px;
+      font-size: 13px;
+      color: rgba(255,255,255,.88);
+    }
+    .hero-note a {
+      color: #fff;
+      font-weight: 700;
+      text-decoration: underline;
+    }
+    .container {
+      max-width: 640px;
+      margin: -32px auto 48px;
+      padding: 0 16px;
+      position: relative;
+      z-index: 2;
+    }
+    .form-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      padding: 36px 28px;
+      margin-bottom: 20px;
+    }
+    @media (max-width: 480px) {
+      .form-card { padding: 28px 20px; }
+    }
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--green);
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--yellow);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-title .icon {
+      width: 28px;
+      height: 28px;
+      background: var(--green);
+      color: #fff;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    .field-group { margin-bottom: 20px; }
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 480px) {
+      .field-row { grid-template-columns: 1fr; gap: 12px; }
+    }
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    label .required { color: #EF4444; font-size: 11px; margin-left: 4px; font-weight: 700; }
+    label .optional { color: var(--text-muted); font-size: 11px; margin-left: 4px; font-weight: 400; }
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-size: 15px;
+      font-family: inherit;
+      color: var(--text);
+      background: #fff;
+      transition: var(--transition);
+      outline: none;
+    }
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+      line-height: 1.6;
+    }
+    select {
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M6 8L1 3h10z' fill='%236B7280'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 36px;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px rgba(0,133,74,.12);
+    }
+    input.error, select.error, textarea.error {
+      border-color: #EF4444;
+      box-shadow: 0 0 0 3px rgba(239,68,68,.1);
+    }
+    .error-msg {
+      color: #EF4444;
+      font-size: 12px;
+      margin-top: 4px;
+      display: none;
+    }
+    .error-msg.show { display: block; }
+    .help {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 6px;
+      line-height: 1.6;
+    }
+    .submit-btn {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, var(--green) 0%, var(--green-light) 100%);
+      color: #fff;
+      font-size: 16px;
+      font-weight: 700;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: var(--transition);
+      letter-spacing: 1px;
+    }
+    .submit-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(0,133,74,.3);
+    }
+    .submit-btn:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+    .privacy-note {
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 16px;
+      line-height: 1.8;
+    }
+    .privacy-note a { color: var(--green); text-decoration: underline; }
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .overlay.active { display: flex; }
+    .confirm-card {
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      max-width: 560px;
+      width: 100%;
+      max-height: 80vh;
+      overflow-y: auto;
+      padding: 32px 28px;
+    }
+    .confirm-card h2 {
+      font-size: 20px;
+      color: var(--green);
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .confirm-table { width: 100%; border-collapse: collapse; }
+    .confirm-table tr { border-bottom: 1px solid var(--border); }
+    .confirm-table th {
+      text-align: left;
+      padding: 10px 8px;
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 600;
+      width: 120px;
+      vertical-align: top;
+    }
+    .confirm-table td { padding: 10px 8px; font-size: 14px; }
+    .confirm-actions { display: flex; gap: 12px; margin-top: 24px; }
+    .btn-back {
+      flex: 1;
+      padding: 12px;
+      background: #F3F4F6;
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .btn-back:hover { background: #E5E7EB; }
+    .btn-confirm {
+      flex: 2;
+      padding: 12px;
+      background: linear-gradient(135deg, var(--green), var(--green-light));
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .btn-confirm:disabled { opacity: .6; cursor: not-allowed; }
+    .success-screen { display: none; text-align: center; padding: 60px 24px; }
+    .success-screen.active { display: block; }
+    .success-icon {
+      width: 80px;
+      height: 80px;
+      background: var(--green);
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+    .success-icon svg { width: 40px; height: 40px; }
+    .success-screen h2 { font-size: 24px; color: var(--green); margin-bottom: 12px; }
+    .success-screen p { color: var(--text-muted); max-width: 400px; margin: 0 auto 24px; }
+    .footer {
+      text-align: center;
+      padding: 24px;
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+    .footer a { color: var(--green); text-decoration: none; }
+    .footer a:hover { text-decoration: underline; }
+    .spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 2.5px solid rgba(255,255,255,.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin .6s linear infinite;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="hero-content">
+      <div class="hero-logo">CCJ.CAPOEIRA OSAKA</div>
+      <h1>プラン変更のお手続き</h1>
+      <p>会員の方がコースの変更を希望される場合は、以下よりお申し出ください。担当が内容を確認のうえご連絡します。</p>
+      <p class="hero-note">初めてのご入会は <a href="index.html">入会申し込みフォーム</a> からお願いします。</p>
+    </div>
+  </header>
+
+  <main class="container" id="formContainer">
+    <form id="planForm" novalidate>
+      <div class="form-card">
+        <div class="section-title"><span class="icon">1</span>変更内容</div>
+
+        <div class="field-group">
+          <label for="currentCourse">現在のコース<span class="required">必須</span></label>
+          <select id="currentCourse" name="currentCourse" required>
+            <option value="">選択してください</option>
+            <option value="ビギナーコース">ビギナーコース</option>
+            <option value="アドバンスコース">アドバンスコース</option>
+            <option value="プロコース">プロコース</option>
+            <option value="キッズクラス">キッズクラス</option>
+            <option value="ドロップイン">ドロップイン</option>
+          </select>
+          <div class="error-msg" id="currentCourseError">現在のコースを選択してください</div>
+        </div>
+
+        <div class="field-group">
+          <label for="desiredCourse">変更後のコース<span class="required">必須</span></label>
+          <select id="desiredCourse" name="desiredCourse" required>
+            <option value="">選択してください</option>
+            <option value="ビギナーコース">ビギナーコース</option>
+            <option value="アドバンスコース">アドバンスコース</option>
+            <option value="プロコース">プロコース</option>
+            <option value="キッズクラス">キッズクラス</option>
+            <option value="ドロップイン">ドロップイン</option>
+          </select>
+          <div class="error-msg" id="desiredCourseError">変更後のコースを選択してください</div>
+          <div class="error-msg" id="sameCourseError">現在と同じコースは選べません</div>
+        </div>
+
+        <div class="field-group">
+          <label for="whenApply">希望反映タイミング<span class="required">必須</span></label>
+          <select id="whenApply" name="whenApply" required>
+            <option value="">選択してください</option>
+            <option value="翌月の会費から">翌月の会費から</option>
+            <option value="翌々月の会費から">翌々月の会費から</option>
+            <option value="希望月は相談したい">希望月は相談したい</option>
+          </select>
+          <div class="error-msg" id="whenApplyError">希望反映タイミングを選択してください</div>
+        </div>
+
+        <div class="field-group">
+          <label for="notes">備考<span class="optional">任意</span></label>
+          <textarea id="notes" name="notes" placeholder="その他お伝えしたいことがあればご記入ください"></textarea>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <div class="section-title"><span class="icon">2</span>ご本人確認・連絡先</div>
+        <p class="help">会員台帳との照合に使用します。登録情報と異なる場合は、担当より確認の連絡を差し上げることがあります。</p>
+
+        <div class="field-group" style="margin-top:16px">
+          <label for="name">氏名<span class="required">必須</span></label>
+          <input type="text" id="name" name="name" placeholder="山田 太郎" required autocomplete="name">
+          <div class="error-msg">氏名を入力してください</div>
+        </div>
+
+        <div class="field-row">
+          <div class="field-group">
+            <label for="email">メールアドレス<span class="required">必須</span></label>
+            <input type="email" id="email" name="email" placeholder="example@email.com" required autocomplete="email">
+            <div class="error-msg">正しいメールアドレスを入力してください</div>
+          </div>
+          <div class="field-group">
+            <label for="tel">電話番号<span class="required">必須</span></label>
+            <input type="tel" id="tel" name="tel" placeholder="090-1234-5678" required autocomplete="tel">
+            <div class="error-msg">電話番号を入力してください</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-card" style="text-align:center">
+        <button type="button" class="submit-btn" id="submitBtn">入力内容を確認する</button>
+        <div class="privacy-note">
+          送信内容はプラン変更手続きおよびご連絡のために使用します。<br>
+          <a href="https://cordao.org/" target="_blank">CCJ.CAPOEIRA OSAKA</a> の方針に同意の上、送信してください。
+        </div>
+      </div>
+    </form>
+  </main>
+
+  <div class="overlay" id="confirmOverlay">
+    <div class="confirm-card">
+      <h2>入力内容のご確認</h2>
+      <table class="confirm-table" id="confirmTable"></table>
+      <div class="confirm-actions">
+        <button type="button" class="btn-back" id="btnBack">修正する</button>
+        <button type="button" class="btn-confirm" id="btnConfirm">この内容で送信する</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="form-card success-screen" id="successScreen">
+      <div class="success-icon">
+        <svg fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+      </div>
+      <h2>受け付けました</h2>
+      <p>プラン変更のお申し出を記録しました。担当よりご連絡するまでお待ちください。会費・契約の変更は、確認と手続き完了後に反映されます。</p>
+      <p style="font-size:13px;color:var(--text-muted)">
+        ご不明な点は <strong>TEL: 050-3636-3410</strong> までお問い合わせください。
+      </p>
+    </div>
+  </div>
+
+  <footer class="footer">
+    &copy; 2026 <a href="https://cordao.org/" target="_blank">CCJ.CAPOEIRA OSAKA</a> — コハダン・ジ・コンタス大阪<br>
+    <a href="index.html">入会申し込み</a>
+  </footer>
+
+<script>
+(function() {
+  const form = document.getElementById('planForm');
+  const formContainer = document.getElementById('formContainer');
+  const confirmOverlay = document.getElementById('confirmOverlay');
+  const confirmTable = document.getElementById('confirmTable');
+  const successScreen = document.getElementById('successScreen');
+  const btnBack = document.getElementById('btnBack');
+  const btnConfirm = document.getElementById('btnConfirm');
+  const submitBtn = document.getElementById('submitBtn');
+
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxrVHm38s5AjyAVRdQEeIRBtjZAQ4tnCT2deRMDx0VC7XaiZtpkWoboaPlBIlnBDz3v4g/exec';
+
+  function validate() {
+    var valid = true;
+    var current = document.getElementById('currentCourse');
+    var desired = document.getElementById('desiredCourse');
+    var sameErr = document.getElementById('sameCourseError');
+
+    document.getElementById('currentCourseError').classList.remove('show');
+    document.getElementById('desiredCourseError').classList.remove('show');
+    sameErr.classList.remove('show');
+    current.classList.remove('error');
+    desired.classList.remove('error');
+
+    if (!current.value) {
+      document.getElementById('currentCourseError').classList.add('show');
+      current.classList.add('error');
+      valid = false;
+    }
+    if (!desired.value) {
+      document.getElementById('desiredCourseError').classList.add('show');
+      desired.classList.add('error');
+      valid = false;
+    } else if (current.value && desired.value === current.value) {
+      sameErr.classList.add('show');
+      desired.classList.add('error');
+      valid = false;
+    }
+
+    var whenApply = document.getElementById('whenApply');
+    document.getElementById('whenApplyError').classList.remove('show');
+    whenApply.classList.remove('error');
+    if (!whenApply.value) {
+      document.getElementById('whenApplyError').classList.add('show');
+      whenApply.classList.add('error');
+      valid = false;
+    }
+
+    function checkText(id, errSelector) {
+      var el = document.getElementById(id);
+      var err = document.querySelector(errSelector);
+      el.classList.remove('error');
+      if (err) err.classList.remove('show');
+      if (!el.value.trim()) {
+        el.classList.add('error');
+        if (err) err.classList.add('show');
+        return false;
+      }
+      return true;
+    }
+
+    if (!checkText('name', '#name + .error-msg')) valid = false;
+
+    var email = document.getElementById('email');
+    var emailErr = email.parentElement.querySelector('.error-msg');
+    email.classList.remove('error');
+    emailErr.classList.remove('show');
+    if (!email.value.trim()) {
+      email.classList.add('error');
+      emailErr.classList.add('show');
+      valid = false;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
+      email.classList.add('error');
+      emailErr.classList.add('show');
+      valid = false;
+    }
+
+    if (!checkText('tel', '#tel + .error-msg')) valid = false;
+
+    return valid;
+  }
+
+  form.querySelectorAll('input, select, textarea').forEach(function(el) {
+    el.addEventListener('input', function() {
+      this.classList.remove('error');
+      const parent = this.parentElement;
+      if (!parent) return;
+      parent.querySelectorAll('.error-msg').forEach(function(m) { m.classList.remove('show'); });
+    });
+    el.addEventListener('change', function() {
+      this.classList.remove('error');
+      const parent = this.parentElement;
+      if (!parent) return;
+      parent.querySelectorAll('.error-msg').forEach(function(m) { m.classList.remove('show'); });
+    });
+  });
+
+  function collectPayload() {
+    return {
+      '氏名': document.getElementById('name').value.trim(),
+      'メールアドレス': document.getElementById('email').value.trim(),
+      '電話番号': document.getElementById('tel').value.trim(),
+      '現コース': document.getElementById('currentCourse').value,
+      '希望コース': document.getElementById('desiredCourse').value,
+      '希望反映': document.getElementById('whenApply').value,
+      '備考': document.getElementById('notes').value.trim()
+    };
+  }
+
+  function collectBody() {
+    return {
+      formVersion: 1,
+      formType: 'plan_change',
+      payload: collectPayload()
+    };
+  }
+
+  const confirmLabels = {
+    '現コース': '現在のコース',
+    '希望コース': '変更後のコース',
+    '希望反映': '希望反映タイミング',
+    '備考': '備考',
+    '氏名': '氏名',
+    'メールアドレス': 'メールアドレス',
+    '電話番号': '電話番号'
+  };
+
+  function showConfirmation(data) {
+    var html = '';
+    for (var key in confirmLabels) {
+      var val = data[key];
+      if (!val) continue;
+      html += '<tr><th>' + confirmLabels[key] + '</th><td>' + escapeHtml(val) + '</td></tr>';
+    }
+    confirmTable.innerHTML = html;
+    confirmOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function escapeHtml(str) {
+    var d = document.createElement('div');
+    d.textContent = str;
+    return d.innerHTML;
+  }
+
+  submitBtn.addEventListener('click', function() {
+    if (!validate()) {
+      var firstError = form.querySelector('.error, .error-msg.show');
+      if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+    showConfirmation(collectPayload());
+  });
+
+  btnBack.addEventListener('click', function() {
+    confirmOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+  });
+
+  btnConfirm.addEventListener('click', function() {
+    btnConfirm.disabled = true;
+    btnConfirm.innerHTML = '<span class="spinner"></span>送信中...';
+
+    var body = collectBody();
+
+    if (!SCRIPT_URL) {
+      console.log('送信データ:', body);
+      setTimeout(showSuccess, 800);
+      return;
+    }
+
+    fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    })
+    .then(function() { showSuccess(); })
+    .catch(function(err) {
+      console.error(err);
+      alert('送信に失敗しました。お手数ですが、再度お試しください。');
+      btnConfirm.disabled = false;
+      btnConfirm.textContent = 'この内容で送信する';
+    });
+  });
+
+  function showSuccess() {
+    confirmOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+    formContainer.style.display = 'none';
+    successScreen.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+})();
+</script>
+</body>
+</html>

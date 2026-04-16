@@ -1,6 +1,6 @@
 # CCJ.CAPOEIRA OSAKA 入会フォーム — 進捗メモ
 
-最終更新: 2026年4月12日
+最終更新: 2026年4月16日
 
 ---
 
@@ -19,6 +19,7 @@
 
 - [x] **テスト送信** — スプレッドシートへのデータ保存確認済み
 - [x] **GitHub Pages で公開** — URL発行済み
+- [x] **プラン変更** — `plan-change.html`、GAS の `formType: plan_change` ルート、シート「プラン変更」
 
 ---
 
@@ -28,7 +29,9 @@
 |------|-----|
 | Apps Script URL | `https://script.google.com/macros/s/AKfycbxrVHm38s5AjyAVRdQEeIRBtjZAQ4tnCT2deRMDx0VC7XaiZtpkWoboaPlBIlnBDz3v4g/exec` |
 | スプレッドシート名 | CCJカポエイラ入会申し込み |
-| ローカルファイル | `/Users/kuboyamatakeshi/Desktop/GitHub/ccj-enrollment-form/index.html` |
+| ローカルファイル | `index.html` / `plan-change.html`（同一 `SCRIPT_URL`） |
+
+**重要（プラン変更を本番で使うとき）:** スプレッドシートの Apps Script に、リポジトリの `google-apps-script.js` を貼り直し、ウェブアプリを **新バージョンで再デプロイ** するまで、プラン変更の送信は旧コードでは処理されません。
 
 ---
 
@@ -60,7 +63,12 @@
 
 ## 公開URL
 
-https://soquetecapoeira-max.github.io/ccj-enrollment-form/
+- 入会: https://soquetecapoeira-max.github.io/ccj-enrollment-form/
+- プラン変更: https://soquetecapoeira-max.github.io/ccj-enrollment-form/plan-change.html
+
+## メンバー手続きの拡張（設計）
+
+プラン変更・休会・大会などを入会フォームと同じスタックで伸ばす方針は `docs/member-services.md` に記載。
 
 ## 今後の変更について
 
