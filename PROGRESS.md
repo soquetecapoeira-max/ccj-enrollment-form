@@ -4,6 +4,19 @@
 
 ---
 
+## 次回ここから（セッションの続き）
+
+作業を中断したときは、このブロックから再開してください。
+
+| 項目 | 内容 |
+|------|------|
+| リポジトリ | `/Users/kuboyamatakeshi/Desktop/GitHub/ccj-enrollment-form`（`main` にプッシュ済み） |
+| 直近まで完了 | プラン変更フォーム `plan-change.html`、GAS の `plan_change` 分岐、ドキュメント更新 |
+| **次にやるとよいこと** | 1) スプレッドシートの Apps Script に `google-apps-script.js` を貼り直し、**ウェブアプリを新バージョンで再デプロイ**（未実施なら必須） 2) `plan-change.html` からテスト送信し、「プラン変更」シートとメールを確認 3) 休会・大会などは `docs/member-services.md` のフェーズ2以降 |
+| 主要ファイル | `index.html`（入会）、`plan-change.html`（プラン変更）、`google-apps-script.js`（GAS 実体はスプレッドシート側） |
+
+---
+
 ## 完了したこと
 
 - [x] フォームの要件整理
