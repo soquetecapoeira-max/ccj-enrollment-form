@@ -311,6 +311,20 @@
       border-color: var(--green);
       background: #F0FDF4;
     }
+    .terms-link-btn {
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 12px;
+      color: var(--green);
+      background: #fff;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .terms-link-btn:hover {
+      border-color: var(--green);
+      background: #F0FDF4;
+    }
     .fee-estimate {
       border: 1px dashed #B8E5CB;
       border-radius: 10px;
@@ -458,6 +472,72 @@
       padding: 24px;
     }
     .overlay.active { display: flex; }
+    .terms-modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.55);
+      z-index: 1200;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+    }
+    .terms-modal-overlay.active { display: flex; }
+    .terms-modal {
+      width: min(920px, 100%);
+      height: min(88vh, 760px);
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      flex-direction: column;
+    }
+    .terms-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      background: #F9FAFB;
+    }
+    .terms-modal-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--green);
+    }
+    .terms-modal-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .terms-modal-link {
+      font-size: 12px;
+      color: var(--green);
+      text-decoration: underline;
+      white-space: nowrap;
+    }
+    .terms-modal-close {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 7px 10px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .terms-modal-close:hover {
+      background: #F3F4F6;
+    }
+    .terms-modal iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #fff;
+    }
     .confirm-card {
       background: #fff;
       border-radius: var(--radius);
@@ -783,7 +863,8 @@
         <div class="section-title"><span class="icon">4</span>ご確認事項（規約・年会費）</div>
         <p class="terms-summary">お申し込み前に、下記の重要事項をご確認ください。</p>
         <div class="terms-links">
-          <a class="terms-link" href="terms-adult.html" target="_blank" rel="noopener noreferrer">入会規約を開く</a>
+          <button type="button" class="terms-link-btn" id="openTermsModal">フォーム内で規約を確認する</button>
+          <a class="terms-link" href="terms-adult.html" target="_blank" rel="noopener noreferrer">入会規約を別タブで開く</a>
           <a class="terms-link" href="https://cordao.org/free/privacy" target="_blank" rel="noopener noreferrer">個人情報の取り扱いを確認する</a>
         </div>
         <div class="fee-estimate" id="feeEstimate">
@@ -813,7 +894,7 @@
         <div class="agreement-check" id="agreeTermsWrap">
           <label for="agreeTerms">
             <input type="checkbox" id="agreeTerms" name="agreeTerms" required>
-            <span>入会規約（年会費3,500円の取り扱いを含む）に同意します<span class="required">必須</span></span>
+            <span>入会規約（年会費3,500円の取り扱いを含む）に同意します<span class="required">必須</span><br><small id="termsVersionLabel">規約 v-- 確認済み</small></span>
           </label>
           <div class="error-msg">入会規約への同意が必要です</div>
         </div>
@@ -821,7 +902,7 @@
         <div class="agreement-check" id="agreePrivacyWrap">
           <label for="agreePrivacy">
             <input type="checkbox" id="agreePrivacy" name="agreePrivacy" required>
-            <span>個人情報の利用目的とプライバシーポリシーに同意します<span class="required">必須</span></span>
+            <span>個人情報の利用目的とプライバシーポリシーに同意します<span class="required">必須</span><br><small id="privacyVersionLabel">ポリシー確認済み（規約 v--）</small></span>
           </label>
           <div class="error-msg">個人情報の取り扱いへの同意が必要です</div>
         </div>
@@ -847,6 +928,20 @@
         <button type="button" class="btn-back" id="btnBack">修正する</button>
         <button type="button" class="btn-confirm" id="btnConfirm">この内容で申し込む</button>
       </div>
+    </div>
+  </div>
+
+  <!-- ── Terms Modal ── -->
+  <div class="terms-modal-overlay" id="termsModalOverlay" aria-hidden="true">
+    <div class="terms-modal" role="dialog" aria-modal="true" aria-labelledby="termsModalTitle">
+      <div class="terms-modal-header">
+        <div class="terms-modal-title" id="termsModalTitle">入会規約（公式規約）</div>
+        <div class="terms-modal-actions">
+          <a class="terms-modal-link" href="terms-adult.html" target="_blank" rel="noopener noreferrer">別タブで開く</a>
+          <button type="button" class="terms-modal-close" id="closeTermsModalBtn">読了して戻る</button>
+        </div>
+      </div>
+      <iframe src="terms-adult.html" title="入会規約"></iframe>
     </div>
   </div>
 
@@ -883,6 +978,11 @@
   const btnBack = document.getElementById('btnBack');
   const btnConfirm = document.getElementById('btnConfirm');
   const submitBtn = document.getElementById('submitBtn');
+  const termsVersionLabel = document.getElementById('termsVersionLabel');
+  const privacyVersionLabel = document.getElementById('privacyVersionLabel');
+  const openTermsModalBtn = document.getElementById('openTermsModal');
+  const closeTermsModalBtn = document.getElementById('closeTermsModalBtn');
+  const termsModalOverlay = document.getElementById('termsModalOverlay');
   const feeEstimateMain = document.getElementById('feeEstimateMain');
   const feeEstimateSub = document.getElementById('feeEstimateSub');
 
@@ -1189,6 +1289,23 @@
     document.body.style.overflow = '';
   });
 
+  // ─── Terms Modal ───
+  function openTermsModal() {
+    termsModalOverlay.classList.add('active');
+    termsModalOverlay.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeTermsModal() {
+    termsModalOverlay.classList.remove('active');
+    termsModalOverlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+  openTermsModalBtn.addEventListener('click', openTermsModal);
+  closeTermsModalBtn.addEventListener('click', closeTermsModal);
+  termsModalOverlay.addEventListener('click', function (e) {
+    if (e.target === termsModalOverlay) closeTermsModal();
+  });
+
   // ─── Confirm & Send ───
   btnConfirm.addEventListener('click', function() {
     btnConfirm.disabled = true;
@@ -1239,6 +1356,8 @@
     successNextStep.textContent = guidance[paymentMethod] || '次のご案内: お支払い方法に応じたご連絡を担当より差し上げます。';
   }
 
+  termsVersionLabel.textContent = '規約 v' + POLICY.termsVersion + ' 確認済み';
+  privacyVersionLabel.textContent = 'ポリシー確認済み（規約 v' + POLICY.termsVersion + '）';
   updateFeeEstimate(null);
 
 })();
