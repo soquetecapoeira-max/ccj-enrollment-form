@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>入会フォーム Sample 2（完全デモ）</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --green: #00854A;
+      --green-light: #00A85A;
+      --yellow: #F5C518;
+      --bg: #FAFAF7;
+      --card: #FFFFFF;
+      --text: #1A1A1A;
+      --text-muted: #6B7280;
+      --border: #E5E7EB;
+      --radius: 12px;
+      --shadow-lg: 0 4px 6px rgba(0,0,0,.07), 0 10px 40px rgba(0,0,0,.08);
+      --transition: .25s cubic-bezier(.4,0,.2,1);
+    }
+    body {
+      font-family: "Hiragino Kaku Gothic ProN","Hiragino Sans",Meiryo,"Noto Sans JP",sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+    .hero {
+      background: linear-gradient(135deg, var(--green) 0%, var(--green-light) 50%, var(--yellow) 100%);
+      padding: 40px 20px 52px;
+      text-align: center;
+      color: #fff;
+    }
+    .hero h1 { font-size: clamp(24px, 5vw, 34px); margin-bottom: 6px; }
+    .hero p { font-size: 14px; opacity: 0.95; }
+    .demo-badge {
+      display: inline-block;
+      margin-bottom: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.2);
+      border: 1px solid rgba(255,255,255,.4);
+    }
+    .container {
+      max-width: 700px;
+      margin: -24px auto 48px;
+      padding: 0 16px;
+    }
+    .form-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      padding: 30px 24px;
+      margin-bottom: 18px;
+    }
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--green);
+      margin-bottom: 18px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--yellow);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-title .icon {
+      width: 28px; height: 28px; border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--green); color: #fff; font-size: 14px;
+    }
+    .course-grid, .payment-grid { display: grid; gap: 10px; }
+    .course-option, .payment-option {
+      position: relative;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 14px 14px 40px;
+      cursor: pointer;
+      transition: var(--transition);
+      background: #fff;
+    }
+    .course-option input, .payment-option input {
+      position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+      accent-color: var(--green);
+    }
+    .course-option.selected, .payment-option.selected {
+      border-color: var(--green); background: #F0FDF4;
+      box-shadow: 0 0 0 1px var(--green);
+    }
+    .payment-option.disabled { opacity: .4; pointer-events: none; }
+    .field-group { margin-bottom: 14px; }
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+    .required { color: #EF4444; font-size: 11px; margin-left: 4px; }
+    .optional { color: var(--text-muted); font-size: 11px; margin-left: 4px; font-weight: 400; }
+    input[type="text"], input[type="email"], input[type="tel"], input[type="date"] {
+      width: 100%; padding: 10px 12px; border: 1.5px solid var(--border); border-radius: 8px;
+      font-size: 15px; font-family: inherit;
+    }
+    input.error { border-color: #EF4444; box-shadow: 0 0 0 3px rgba(239,68,68,.12); }
+    .error-msg { color: #EF4444; font-size: 12px; margin-top: 4px; display: none; }
+    .error-msg.show { display: block; }
+    .terms-summary { font-size: 13px; color: var(--text-muted); margin-bottom: 12px; }
+    .terms-card {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #F9FAFB;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+    .terms-card h3 { margin-bottom: 6px; font-size: 14px; color: var(--green); }
+    .terms-card ul { padding-left: 18px; font-size: 13px; }
+    .terms-details {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #fff;
+      padding: 10px 12px;
+      margin-bottom: 12px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .terms-details summary { cursor: pointer; color: var(--green); font-weight: 700; }
+    .terms-details p { margin-top: 8px; }
+    .agreement-check {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin-bottom: 10px;
+      background: #fff;
+    }
+    .agreement-check.error { border-color: #EF4444; box-shadow: 0 0 0 3px rgba(239,68,68,.1); }
+    .agreement-check label {
+      margin: 0;
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      cursor: pointer;
+      font-size: 13px;
+    }
+    .agreement-check input { margin-top: 2px; accent-color: var(--green); }
+    .submit-btn {
+      width: 100%; padding: 14px;
+      border: none; border-radius: 10px;
+      background: linear-gradient(135deg, var(--green) 0%, var(--green-light) 100%);
+      color: #fff; font-size: 17px; font-weight: 700; cursor: pointer;
+    }
+    .privacy-note { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 14px; }
+    .privacy-note a { color: var(--green); }
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+    }
+    .overlay.active { display: flex; }
+    .confirm-card {
+      background: #fff; width: 100%; max-width: 560px; border-radius: 12px;
+      padding: 24px; max-height: 84vh; overflow-y: auto;
+    }
+    .confirm-card h2 { color: var(--green); text-align: center; margin-bottom: 12px; font-size: 22px; }
+    .confirm-table { width: 100%; border-collapse: collapse; margin-bottom: 12px; }
+    .confirm-table tr { border-bottom: 1px solid var(--border); }
+    .confirm-table th, .confirm-table td { text-align: left; font-size: 13px; padding: 8px 6px; vertical-align: top; }
+    .confirm-table th { color: var(--text-muted); width: 130px; }
+    .confirm-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .btn-back, .btn-confirm { border: none; border-radius: 8px; padding: 10px; font-size: 14px; cursor: pointer; }
+    .btn-back { background: #E5E7EB; color: #374151; }
+    .btn-confirm { background: var(--green); color: #fff; }
+    @media (max-width: 520px) {
+      .field-row { grid-template-columns: 1fr; }
+      .form-card { padding: 24px 18px; }
+      .confirm-actions { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="demo-badge">Sample 2（完全デモ）</div>
+    <h1>入会申し込みフォーム</h1>
+    <p>本番反映前に、項目と同意表示を確認するためのデモページです（送信なし）。</p>
+  </header>
+
+  <main class="container">
+    <form id="previewForm">
+      <div class="form-card">
+        <div class="section-title"><span class="icon">1</span>コース選択</div>
+        <div class="course-grid">
+          <label class="course-option" data-course="beginner"><input type="radio" name="course" value="ビギナーコース"><strong>ビギナーコース</strong></label>
+          <label class="course-option" data-course="advance"><input type="radio" name="course" value="アドバンスコース"><strong>アドバンスコース</strong></label>
+          <label class="course-option" data-course="pro"><input type="radio" name="course" value="プロコース"><strong>プロコース</strong></label>
+          <label class="course-option" data-course="kids"><input type="radio" name="course" value="キッズクラス"><strong>キッズクラス</strong></label>
+          <label class="course-option" data-course="dropin"><input type="radio" name="course" value="ドロップイン"><strong>ドロップイン</strong></label>
+        </div>
+        <div class="error-msg" id="courseError">コースを選択してください</div>
+      </div>
+
+      <div class="form-card">
+        <div class="section-title"><span class="icon">2</span>お申し込み者情報</div>
+        <div class="field-row">
+          <div class="field-group">
+            <label for="name">氏名<span class="required">必須</span></label>
+            <input type="text" id="name" required>
+            <div class="error-msg">氏名を入力してください</div>
+          </div>
+          <div class="field-group">
+            <label for="furigana">フリガナ<span class="required">必須</span></label>
+            <input type="text" id="furigana" required>
+            <div class="error-msg">フリガナを入力してください</div>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field-group">
+            <label for="birthday">生年月日<span class="required">必須</span></label>
+            <input type="date" id="birthday" required>
+            <div class="error-msg">生年月日を入力してください</div>
+          </div>
+          <div class="field-group">
+            <label for="tel">電話番号<span class="required">必須</span></label>
+            <input type="tel" id="tel" required>
+            <div class="error-msg">電話番号を入力してください</div>
+          </div>
+        </div>
+        <div class="field-group">
+          <label for="email">メールアドレス<span class="required">必須</span></label>
+          <input type="email" id="email" required>
+          <div class="error-msg">正しいメールアドレスを入力してください</div>
+        </div>
+        <div class="field-group">
+          <label for="postal">郵便番号<span class="required">必須</span></label>
+          <input type="text" id="postal" required>
+          <div class="error-msg">郵便番号を入力してください</div>
+        </div>
+        <div class="field-group">
+          <label for="address1">住所1（市区町村・番地）<span class="required">必須</span></label>
+          <input type="text" id="address1" required>
+          <div class="error-msg">住所を入力してください</div>
+        </div>
+        <div class="field-group">
+          <label for="address2">住所2（建物名・部屋番号）<span class="optional">任意</span></label>
+          <input type="text" id="address2">
+        </div>
+        <div class="field-group">
+          <label for="guardian">保護者氏名<span class="optional" id="guardianTag">任意</span></label>
+          <input type="text" id="guardian" placeholder="未成年の方はご記入ください">
+          <div class="error-msg">保護者氏名を入力してください</div>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <div class="section-title"><span class="icon">3</span>お支払い方法</div>
+        <p class="terms-summary" id="paymentNote">クレジットカード(PayPal)または口座振替のご登録が必要です。</p>
+        <div class="payment-grid">
+          <label class="payment-option" id="optPaypal"><input type="radio" name="payment" value="クレジットカード(PayPal)">クレジットカード(PayPal)</label>
+          <label class="payment-option" id="optBank"><input type="radio" name="payment" value="口座振替">口座振替</label>
+          <label class="payment-option" id="optCash"><input type="radio" name="payment" value="現金">現金</label>
+        </div>
+        <div class="error-msg" id="paymentError">お支払い方法を選択してください</div>
+      </div>
+
+      <div class="form-card">
+        <div class="section-title"><span class="icon">4</span>ご確認事項（規約・年会費）</div>
+        <p class="terms-summary">お申し込み前に、下記の重要事項をご確認ください。</p>
+        <div class="terms-card">
+          <h3>重要事項（要約）</h3>
+          <ul>
+            <li>年会費は <strong>3,500円</strong> です（入会時、および毎年3月に年1回）。</li>
+            <li>同一口座・同一アカウントでご家族2名以上在籍の場合、2人目以降は年会費2,500円です。</li>
+            <li>退会・休会の反映時期や返金可否は、規約の定めに従います。</li>
+            <li>個人情報は、入会手続き・連絡・運営管理の目的で利用します。</li>
+          </ul>
+        </div>
+        <details class="terms-details">
+          <summary>入会規約（重要事項）を開く</summary>
+          <p>
+            本フォームからのお申し込みにより、会員は教室が別途定める入会規約・会費規程・個人情報の取扱方針に同意したものとします。
+            年会費は入会時および毎年3月に3,500円を請求します。その他、会費の請求・退会/休会・返金の取り扱いは規約に準じます。
+          </p>
+        </details>
+        <div class="agreement-check" id="agreeTermsWrap">
+          <label><input type="checkbox" id="agreeTerms" required>入会規約（年会費3,500円の取り扱いを含む）に同意します<span class="required">必須</span></label>
+          <div class="error-msg">入会規約への同意が必要です</div>
+        </div>
+        <div class="agreement-check" id="agreePrivacyWrap">
+          <label><input type="checkbox" id="agreePrivacy" required>個人情報の利用目的とプライバシーポリシーに同意します<span class="required">必須</span></label>
+          <div class="error-msg">個人情報の取り扱いへの同意が必要です</div>
+        </div>
+      </div>
+
+      <div class="form-card" style="text-align:center">
+        <button type="button" class="submit-btn" id="submitBtn">入力内容を確認する（デモ）</button>
+        <div class="privacy-note">
+          送信いただいた個人情報は、入会手続きおよびご連絡の目的でのみ使用いたします。<br>
+          <a href="https://cordao.org/free/privacy" target="_blank" rel="noopener noreferrer">CCJ.CAPOEIRA OSAKA</a> プライバシーポリシーに同意の上、送信してください。
+        </div>
+      </div>
+    </form>
+  </main>
+
+  <div class="overlay" id="confirmOverlay">
+    <div class="confirm-card">
+      <h2>入力内容のご確認（デモ）</h2>
+      <table class="confirm-table" id="confirmTable"></table>
+      <div class="confirm-actions">
+        <button type="button" class="btn-back" id="btnBack">修正する</button>
+        <button type="button" class="btn-confirm" id="btnConfirm">この内容で申し込む（送信なし）</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var form = document.getElementById('previewForm');
+      var submitBtn = document.getElementById('submitBtn');
+      var confirmOverlay = document.getElementById('confirmOverlay');
+      var confirmTable = document.getElementById('confirmTable');
+      var btnBack = document.getElementById('btnBack');
+      var btnConfirm = document.getElementById('btnConfirm');
+
+      function setCourseSelection(option) {
+        document.querySelectorAll('.course-option').forEach(function (o) { o.classList.remove('selected'); });
+        option.classList.add('selected');
+        option.querySelector('input').checked = true;
+        document.getElementById('courseError').classList.remove('show');
+        updatePaymentOptions();
+        updateGuardianField();
+      }
+
+      document.querySelectorAll('.course-option').forEach(function (opt) {
+        opt.addEventListener('click', function () { setCourseSelection(opt); });
+      });
+
+      document.querySelectorAll('.payment-option').forEach(function (opt) {
+        opt.addEventListener('click', function () {
+          if (opt.classList.contains('disabled')) return;
+          document.querySelectorAll('.payment-option').forEach(function (o) { o.classList.remove('selected'); });
+          opt.classList.add('selected');
+          opt.querySelector('input').checked = true;
+          document.getElementById('paymentError').classList.remove('show');
+        });
+      });
+
+      function updatePaymentOptions() {
+        var selected = document.querySelector('input[name="course"]:checked');
+        if (!selected) return;
+        var course = selected.closest('.course-option').dataset.course;
+        var paypal = document.getElementById('optPaypal');
+        var bank = document.getElementById('optBank');
+        var cash = document.getElementById('optCash');
+        var note = document.getElementById('paymentNote');
+        [paypal, bank, cash].forEach(function (el) {
+          el.classList.remove('selected', 'disabled');
+          el.querySelector('input').checked = false;
+        });
+        if (course === 'dropin') {
+          paypal.classList.add('disabled');
+          bank.classList.add('disabled');
+          cash.classList.add('selected');
+          cash.querySelector('input').checked = true;
+          note.textContent = 'ドロップインは現金のみのお支払いとなります。';
+        } else {
+          cash.classList.add('disabled');
+          note.textContent = 'クレジットカード(PayPal)または口座振替のご登録が必要です。';
+        }
+      }
+
+      function updateGuardianField() {
+        var selected = document.querySelector('input[name="course"]:checked');
+        if (!selected) return;
+        var course = selected.closest('.course-option').dataset.course;
+        var tag = document.getElementById('guardianTag');
+        tag.textContent = course === 'kids' ? '必須' : '任意';
+        tag.className = course === 'kids' ? 'required' : 'optional';
+      }
+
+      function markRequired(input, invalid) {
+        var wrap = input.closest('.agreement-check') || input.parentElement;
+        var msg = wrap ? wrap.querySelector('.error-msg') : null;
+        if (input.type === 'checkbox') {
+          if (wrap) wrap.classList.toggle('error', invalid);
+        } else {
+          input.classList.toggle('error', invalid);
+        }
+        if (msg) msg.classList.toggle('show', invalid);
+      }
+
+      function validate() {
+        var valid = true;
+        if (!document.querySelector('input[name="course"]:checked')) {
+          document.getElementById('courseError').classList.add('show');
+          valid = false;
+        }
+        form.querySelectorAll('[required]:not([name="course"])').forEach(function (input) {
+          var invalid = (input.type === 'checkbox') ? !input.checked : !input.value.trim();
+          markRequired(input, invalid);
+          if (invalid) valid = false;
+        });
+        var email = document.getElementById('email');
+        var emailInvalid = !!email.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value);
+        if (emailInvalid) {
+          email.classList.add('error');
+          email.parentElement.querySelector('.error-msg').classList.add('show');
+          valid = false;
+        }
+        if (!document.querySelector('input[name="payment"]:checked')) {
+          document.getElementById('paymentError').classList.add('show');
+          valid = false;
+        }
+        var course = document.querySelector('input[name="course"]:checked');
+        if (course && course.closest('.course-option').dataset.course === 'kids') {
+          var guardian = document.getElementById('guardian');
+          var invalidGuardian = !guardian.value.trim();
+          guardian.classList.toggle('error', invalidGuardian);
+          guardian.parentElement.querySelector('.error-msg').classList.toggle('show', invalidGuardian);
+          if (invalidGuardian) valid = false;
+        }
+        return valid;
+      }
+
+      form.querySelectorAll('input').forEach(function (el) {
+        function clear() {
+          el.classList.remove('error');
+          var wrap = el.closest('.agreement-check') || el.parentElement;
+          if (wrap) {
+            wrap.classList.remove('error');
+            var msg = wrap.querySelector('.error-msg');
+            if (msg) msg.classList.remove('show');
+          }
+        }
+        el.addEventListener('input', clear);
+        el.addEventListener('change', clear);
+      });
+
+      function collectData() {
+        return {
+          'コース': document.querySelector('input[name="course"]:checked').value,
+          '氏名': document.getElementById('name').value.trim(),
+          'フリガナ': document.getElementById('furigana').value.trim(),
+          '生年月日': document.getElementById('birthday').value,
+          '電話番号': document.getElementById('tel').value.trim(),
+          'メールアドレス': document.getElementById('email').value.trim(),
+          '郵便番号': document.getElementById('postal').value.trim(),
+          '住所1': document.getElementById('address1').value.trim(),
+          '住所2': document.getElementById('address2').value.trim(),
+          '保護者氏名': document.getElementById('guardian').value.trim(),
+          '支払い方法': document.querySelector('input[name="payment"]:checked').value,
+          '年会費規定同意': document.getElementById('agreeTerms').checked ? '同意' : '未同意',
+          '個人情報取扱同意': document.getElementById('agreePrivacy').checked ? '同意' : '未同意',
+          '規約バージョン': '2026-04'
+        };
+      }
+
+      function escapeHtml(str) {
+        var d = document.createElement('div');
+        d.textContent = str;
+        return d.innerHTML;
+      }
+
+      function showConfirmation(data) {
+        var labels = {
+          'コース':'コース','氏名':'氏名','フリガナ':'フリガナ','生年月日':'生年月日','電話番号':'電話番号',
+          'メールアドレス':'メールアドレス','郵便番号':'郵便番号','住所1':'住所1','住所2':'住所2',
+          '保護者氏名':'保護者氏名','支払い方法':'支払い方法','年会費規定同意':'年会費規定同意',
+          '個人情報取扱同意':'個人情報同意','規約バージョン':'規約バージョン'
+        };
+        var html = '';
+        Object.keys(labels).forEach(function (key) {
+          if (!data[key]) return;
+          html += '<tr><th>' + labels[key] + '</th><td>' + escapeHtml(data[key]) + '</td></tr>';
+        });
+        confirmTable.innerHTML = html;
+        confirmOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+
+      submitBtn.addEventListener('click', function () {
+        if (!validate()) return;
+        showConfirmation(collectData());
+      });
+      btnBack.addEventListener('click', function () {
+        confirmOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+      btnConfirm.addEventListener('click', function () {
+        alert('これはSample 2の完全デモです。実際の送信は行いません。');
+      });
+    })();
+  </script>
+</body>
+</html>

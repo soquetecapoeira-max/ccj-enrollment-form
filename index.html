@@ -278,6 +278,80 @@
       font-size: 14px;
     }
 
+    /* ── Terms / Agreement ── */
+    .terms-summary {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+    }
+    .terms-card {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #F9FAFB;
+      padding: 14px;
+      margin-bottom: 14px;
+    }
+    .terms-card h3 {
+      font-size: 14px;
+      color: var(--green);
+      margin-bottom: 8px;
+    }
+    .terms-card ul {
+      margin: 0;
+      padding-left: 18px;
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.75;
+    }
+    .terms-details {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #fff;
+      padding: 12px 14px;
+      margin-bottom: 14px;
+    }
+    .terms-details summary {
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--green);
+    }
+    .terms-details p {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 10px;
+      line-height: 1.75;
+    }
+    .agreement-check {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin-bottom: 10px;
+      background: #fff;
+      transition: var(--transition);
+    }
+    .agreement-check.error {
+      border-color: #EF4444;
+      box-shadow: 0 0 0 3px rgba(239,68,68,.1);
+    }
+    .agreement-check label {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      margin: 0;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--text);
+    }
+    .agreement-check input[type="checkbox"] {
+      margin-top: 2px;
+      accent-color: var(--green);
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+
     /* ── Submit ── */
     .submit-btn {
       width: 100%;
@@ -624,12 +698,49 @@
         <div class="error-msg" id="paymentError">お支払い方法を選択してください</div>
       </div>
 
+      <div class="form-card">
+        <div class="section-title"><span class="icon">4</span>ご確認事項（規約・年会費）</div>
+        <p class="terms-summary">お申し込み前に、下記の重要事項をご確認ください。</p>
+        <div class="terms-card">
+          <h3>重要事項（要約）</h3>
+          <ul>
+            <li>年会費は <strong>3,500円</strong> です（入会時、および毎年3月に年1回）。</li>
+            <li>月会費・入会金・年会費の金額や支払時期は、教室案内および規約に従います。</li>
+            <li>退会・休会の反映時期や返金可否は、規約の定めに従います。</li>
+            <li>個人情報は、入会手続き・連絡・運営管理の目的で利用します。</li>
+          </ul>
+        </div>
+        <details class="terms-details">
+          <summary>入会規約（重要事項）を開く</summary>
+          <p>
+            本フォームからのお申し込みにより、会員は教室が別途定める入会規約・会費規程・個人情報の取扱方針に同意したものとします。
+            年会費は入会時および毎年3月に3,500円を請求します。その他、会費の請求・退会/休会・返金の取り扱いは規約に準じます。
+          </p>
+        </details>
+
+        <div class="agreement-check" id="agreeTermsWrap">
+          <label for="agreeTerms">
+            <input type="checkbox" id="agreeTerms" name="agreeTerms" required>
+            <span>入会規約（年会費3,500円の取り扱いを含む）に同意します<span class="required">必須</span></span>
+          </label>
+          <div class="error-msg">入会規約への同意が必要です</div>
+        </div>
+
+        <div class="agreement-check" id="agreePrivacyWrap">
+          <label for="agreePrivacy">
+            <input type="checkbox" id="agreePrivacy" name="agreePrivacy" required>
+            <span>個人情報の利用目的とプライバシーポリシーに同意します<span class="required">必須</span></span>
+          </label>
+          <div class="error-msg">個人情報の取り扱いへの同意が必要です</div>
+        </div>
+      </div>
+
       <!-- Submit -->
       <div class="form-card" style="text-align:center">
         <button type="button" class="submit-btn" id="submitBtn">入力内容を確認する</button>
         <div class="privacy-note">
           送信いただいた個人情報は、入会手続きおよびご連絡の目的でのみ使用いたします。<br>
-          <a href="https://cordao.org/" target="_blank">CCJ.CAPOEIRA OSAKA</a> プライバシーポリシーに同意の上、送信してください。
+          <a href="https://cordao.org/free/privacy" target="_blank">CCJ.CAPOEIRA OSAKA</a> プライバシーポリシーに同意の上、送信してください。
         </div>
       </div>
     </form>
@@ -782,7 +893,19 @@
 
     const required = form.querySelectorAll('[required]:not([name="course"])');
     required.forEach(input => {
-      const errMsg = input.parentElement.querySelector('.error-msg');
+      const wrap = input.closest('.agreement-check') || input.parentElement;
+      const errMsg = wrap ? wrap.querySelector('.error-msg') : null;
+      if (input.type === 'checkbox') {
+        if (!input.checked) {
+          if (wrap) wrap.classList.add('error');
+          if (errMsg) errMsg.classList.add('show');
+          valid = false;
+        } else {
+          if (wrap) wrap.classList.remove('error');
+          if (errMsg) errMsg.classList.remove('show');
+        }
+        return;
+      }
       if (!input.value.trim()) {
         input.classList.add('error');
         if (errMsg) errMsg.classList.add('show');
@@ -820,11 +943,15 @@
 
   // ─── Clear errors on input ───
   form.querySelectorAll('input, select').forEach(el => {
-    el.addEventListener('input', function() {
+    const clearError = function() {
       this.classList.remove('error');
-      const msg = this.parentElement.querySelector('.error-msg');
+      const wrap = this.closest('.agreement-check') || this.parentElement;
+      if (wrap) wrap.classList.remove('error');
+      const msg = wrap ? wrap.querySelector('.error-msg') : null;
       if (msg) msg.classList.remove('show');
-    });
+    };
+    el.addEventListener('input', clearError);
+    el.addEventListener('change', clearError);
   });
 
   // ─── Collect Data ───
@@ -844,7 +971,10 @@
       '住所1': document.getElementById('address1').value.trim(),
       '住所2': document.getElementById('address2').value.trim(),
       '保護者氏名': document.getElementById('guardian').value.trim(),
-      '支払い方法': document.querySelector('input[name="payment"]:checked').value
+      '支払い方法': document.querySelector('input[name="payment"]:checked').value,
+      '年会費規定同意': document.getElementById('agreeTerms').checked ? '同意' : '未同意',
+      '個人情報取扱同意': document.getElementById('agreePrivacy').checked ? '同意' : '未同意',
+      '規約バージョン': '2026-04'
     };
   }
 
@@ -854,7 +984,8 @@
     const labels = {
       '入会申込日':'申込日時','コース':'コース','氏名':'氏名','フリガナ':'フリガナ',
       '生年月日':'生年月日','電話番号':'電話番号','メールアドレス':'メールアドレス',
-      '郵便番号':'郵便番号','住所1':'住所1','住所2':'住所2','保護者氏名':'保護者氏名','支払い方法':'支払い方法'
+      '郵便番号':'郵便番号','住所1':'住所1','住所2':'住所2','保護者氏名':'保護者氏名','支払い方法':'支払い方法',
+      '年会費規定同意':'年会費規定同意','個人情報取扱同意':'個人情報同意','規約バージョン':'規約バージョン'
     };
     for (const [key, label] of Object.entries(labels)) {
       if (!data[key]) continue;

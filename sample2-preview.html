@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>入会フォーム Sample 2 | CCJ.CAPOEIRA OSAKA</title>
+  <style>
+    :root {
+      --green: #00854A;
+      --green-light: #0ca15d;
+      --yellow: #f5c518;
+      --bg: #f7f8f6;
+      --card: #ffffff;
+      --text: #1a1a1a;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, "Noto Sans JP", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    .hero {
+      background: linear-gradient(135deg, var(--green) 0%, var(--green-light) 55%, var(--yellow) 100%);
+      color: #fff;
+      padding: 44px 16px 56px;
+      text-align: center;
+    }
+    .hero h1 {
+      margin: 8px 0 6px;
+      font-size: clamp(24px, 5vw, 34px);
+    }
+    .hero p {
+      margin: 0 auto;
+      max-width: 580px;
+      opacity: 0.95;
+      font-size: 14px;
+    }
+    .container {
+      max-width: 720px;
+      margin: -26px auto 48px;
+      padding: 0 14px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+      padding: 24px 20px;
+      margin-bottom: 14px;
+    }
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 14px;
+      font-size: 18px;
+      color: var(--green);
+      border-bottom: 2px solid var(--yellow);
+      padding-bottom: 10px;
+    }
+    .badge {
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--green);
+      color: #fff;
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .small-note {
+      font-size: 13px;
+      color: var(--muted);
+      margin: 0 0 14px;
+    }
+    .terms {
+      border: 1px solid var(--border);
+      background: #f9fafb;
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+    .terms h3 {
+      margin: 0 0 6px;
+      color: var(--green);
+      font-size: 15px;
+    }
+    .terms ul {
+      margin: 0;
+      padding-left: 18px;
+      font-size: 14px;
+    }
+    .terms li { margin-bottom: 4px; }
+    details {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin-bottom: 12px;
+    }
+    summary {
+      cursor: pointer;
+      color: var(--green);
+      font-weight: 700;
+      font-size: 14px;
+    }
+    details p {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .agree {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin-bottom: 10px;
+      background: #fff;
+      font-size: 14px;
+    }
+    .agree input {
+      margin-right: 8px;
+      accent-color: var(--green);
+    }
+    .action {
+      width: 100%;
+      border: 0;
+      border-radius: 10px;
+      padding: 14px;
+      color: #fff;
+      font-size: 17px;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--green) 0%, var(--green-light) 100%);
+      cursor: pointer;
+    }
+    .action:hover { opacity: 0.96; }
+    .privacy {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 12px;
+      text-align: center;
+      line-height: 1.75;
+    }
+    .privacy a { color: var(--green); }
+    .demo-tag {
+      display: inline-block;
+      background: #ecfdf3;
+      color: var(--green);
+      border: 1px solid #b8f1d2;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 10px;
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="demo-tag">確認用デモ（Sample 2）</div>
+    <h1>入会申し込みフォーム</h1>
+    <p>本番反映前の見た目確認用ページです。送信は行いません。</p>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h2 class="section-title"><span class="badge">4</span>ご確認事項（規約・年会費）</h2>
+      <p class="small-note">お申し込み前に、下記の重要事項をご確認ください。</p>
+
+      <div class="terms">
+        <h3>重要事項（要約）</h3>
+        <ul>
+          <li>年会費は <strong>3,500円</strong> です（入会時、および毎年3月に年1回）。</li>
+          <li>同一口座・同一アカウントでご家族2名以上在籍の場合、2人目以降は年会費2,500円です。</li>
+          <li>退会・休会の反映時期や返金可否は、規約の定めに従います。</li>
+          <li>個人情報は、入会手続き・連絡・運営管理の目的で利用します。</li>
+        </ul>
+      </div>
+
+      <details>
+        <summary>入会規約（重要事項）を開く</summary>
+        <p>
+          本フォームからのお申し込みにより、会員は教室が別途定める入会規約・会費規程・個人情報の取扱方針に同意したものとします。
+          年会費は入会時および毎年3月に3,500円を請求します。その他、会費の請求・退会/休会・返金の取り扱いは規約に準じます。
+        </p>
+      </details>
+
+      <div class="agree">
+        <label><input type="checkbox">入会規約（年会費3,500円の取り扱いを含む）に同意します（必須）</label>
+      </div>
+      <div class="agree">
+        <label><input type="checkbox">個人情報の利用目的とプライバシーポリシーに同意します（必須）</label>
+      </div>
+    </section>
+
+    <section class="card">
+      <button class="action" type="button" id="previewBtn">この内容で申し込む（デモ）</button>
+      <p class="privacy">
+        送信いただいた個人情報は、入会手続きおよびご連絡の目的でのみ使用いたします。<br>
+        <a href="https://cordao.org/free/privacy" target="_blank" rel="noopener noreferrer">CCJ.CAPOEIRA OSAKA プライバシーポリシー</a>
+      </p>
+    </section>
+  </main>
+
+  <script>
+    document.getElementById('previewBtn').addEventListener('click', function () {
+      alert('これは確認用のSample 2です。実際の送信は行っていません。');
+    });
+  </script>
+</body>
+</html>
