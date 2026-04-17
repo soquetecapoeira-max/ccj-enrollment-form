@@ -200,6 +200,7 @@
     input[type="email"],
     input[type="tel"],
     input[type="date"],
+    textarea,
     select {
       width: 100%;
       padding: 10px 14px;
@@ -214,11 +215,11 @@
       appearance: none;
       -webkit-appearance: none;
     }
-    input:focus, select:focus {
+    input:focus, textarea:focus, select:focus {
       border-color: var(--green);
       box-shadow: 0 0 0 3px rgba(0,133,74,.12);
     }
-    input.error, select.error {
+    input.error, textarea.error, select.error {
       border-color: #EF4444;
       box-shadow: 0 0 0 3px rgba(239,68,68,.1);
     }
@@ -229,6 +230,11 @@
       display: none;
     }
     .error-msg.show { display: block; }
+    textarea {
+      min-height: 92px;
+      resize: vertical;
+      line-height: 1.5;
+    }
 
     select {
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M6 8L1 3h10z' fill='%236B7280'/%3E%3C/svg%3E");
@@ -283,6 +289,51 @@
       font-size: 13px;
       color: var(--text-muted);
       margin-bottom: 14px;
+    }
+    .terms-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .terms-link {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 10px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-size: 12px;
+      color: var(--green);
+      text-decoration: none;
+      background: #fff;
+    }
+    .terms-link:hover {
+      border-color: var(--green);
+      background: #F0FDF4;
+    }
+    .fee-estimate {
+      border: 1px dashed #B8E5CB;
+      border-radius: 10px;
+      background: #F3FCF7;
+      padding: 12px 14px;
+      margin-bottom: 14px;
+    }
+    .fee-estimate-title {
+      font-size: 12px;
+      color: var(--green);
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .fee-estimate-main {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .fee-estimate-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.6;
     }
     .terms-card {
       border: 1px solid var(--border);
@@ -513,6 +564,18 @@
       max-width: 400px;
       margin: 0 auto 24px;
     }
+    .success-next-step {
+      text-align: left;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #F9FAFB;
+      padding: 12px;
+      margin: 14px auto 20px;
+      max-width: 440px;
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.7;
+    }
 
     /* ── Footer ── */
     .footer {
@@ -650,6 +713,19 @@
           <div class="error-msg">正しいメールアドレスを入力してください</div>
         </div>
 
+        <div class="field-row">
+          <div class="field-group">
+            <label for="telSub">予備電話番号<span class="optional">任意</span></label>
+            <input type="tel" id="telSub" name="telSub" placeholder="06-1234-5678">
+            <div class="error-msg">電話番号の形式が正しくありません</div>
+          </div>
+          <div class="field-group">
+            <label for="emailSub">予備メールアドレス<span class="optional">任意</span></label>
+            <input type="email" id="emailSub" name="emailSub" placeholder="sub@example.com">
+            <div class="error-msg">正しいメールアドレスを入力してください</div>
+          </div>
+        </div>
+
         <div class="postal-row" style="margin-bottom:20px">
           <div class="field-group">
             <label for="postal">郵便番号<span class="required">必須</span></label>
@@ -674,6 +750,11 @@
           <label for="guardian">保護者氏名<span class="optional" id="guardianTag">任意</span></label>
           <input type="text" id="guardian" name="guardian" placeholder="未成年の方はご記入ください">
           <div class="error-msg">保護者氏名を入力してください</div>
+        </div>
+
+        <div class="field-group">
+          <label for="notes">備考<span class="optional">任意</span></label>
+          <textarea id="notes" name="notes" placeholder="ご要望や連絡事項があればご記入ください"></textarea>
         </div>
       </div>
 
@@ -701,12 +782,23 @@
       <div class="form-card">
         <div class="section-title"><span class="icon">4</span>ご確認事項（規約・年会費）</div>
         <p class="terms-summary">お申し込み前に、下記の重要事項をご確認ください。</p>
+        <div class="terms-links">
+          <a class="terms-link" href="terms-adult.html" target="_blank" rel="noopener noreferrer">入会規約を開く</a>
+          <a class="terms-link" href="https://cordao.org/free/privacy" target="_blank" rel="noopener noreferrer">個人情報の取り扱いを確認する</a>
+        </div>
+        <div class="fee-estimate" id="feeEstimate">
+          <div class="fee-estimate-title">初回にかかる費用の目安（通常入会）</div>
+          <div class="fee-estimate-main" id="feeEstimateMain">コースを選択すると金額が表示されます</div>
+          <div class="fee-estimate-sub" id="feeEstimateSub">入会金 + 年会費 + 初月会費（または参加費）を表示します。</div>
+        </div>
         <div class="terms-card">
           <h3>重要事項（要約）</h3>
           <ul>
             <li>年会費は <strong>3,500円</strong> です（入会時、および毎年3月に年1回）。</li>
-            <li>月会費・入会金・年会費の金額や支払時期は、教室案内および規約に従います。</li>
-            <li>退会・休会の反映時期や返金可否は、規約の定めに従います。</li>
+            <li>初回目安は「入会金 5,000円 + 年会費 3,500円 + 初月会費」です（同一家族2人目以降は入会金無料）。</li>
+            <li>その他イベント参加は通常レッスンとは別料金です。</li>
+            <li>プラン変更は変更月の1.5か月前までにお申し出ください。</li>
+            <li>退会は事前連絡のうえ手続き予約が必要です（電話・メールのみでの退会手続き不可）。</li>
             <li>個人情報は、入会手続き・連絡・運営管理の目的で利用します。</li>
           </ul>
         </div>
@@ -766,6 +858,7 @@
       </div>
       <h2>お申し込みありがとうございます！</h2>
       <p>入会申し込みを受け付けました。確認のご連絡を差し上げますので、しばらくお待ちください。</p>
+      <div class="success-next-step" id="successNextStep"></div>
       <p style="font-size:13px;color:var(--text-muted)">
         ご不明な点がございましたら<br>
         <strong>TEL: 050-3636-3410</strong> までお問い合わせください。
@@ -775,7 +868,8 @@
 
   <footer class="footer">
     &copy; 2026 <a href="https://cordao.org/" target="_blank">CCJ.CAPOEIRA OSAKA</a> — コハダン・ジ・コンタス大阪<br>
-    <a href="plan-change.html">会員の方：プラン変更のお手続き</a>
+    <a href="plan-change.html">会員の方：プラン変更のお手続き</a> / 
+    <a href="leave-request.html">会員の方：退会手続きの事前連絡</a>
   </footer>
 
 <script>
@@ -785,13 +879,31 @@
   const confirmOverlay = document.getElementById('confirmOverlay');
   const confirmTable = document.getElementById('confirmTable');
   const successScreen = document.getElementById('successScreen');
+  const successNextStep = document.getElementById('successNextStep');
   const btnBack = document.getElementById('btnBack');
   const btnConfirm = document.getElementById('btnConfirm');
   const submitBtn = document.getElementById('submitBtn');
+  const feeEstimateMain = document.getElementById('feeEstimateMain');
+  const feeEstimateSub = document.getElementById('feeEstimateSub');
 
   // ─── Google Apps Script Web App URL ───
   // 下記のURLをGoogle Apps ScriptのデプロイURLに差し替えてください
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxrVHm38s5AjyAVRdQEeIRBtjZAQ4tnCT2deRMDx0VC7XaiZtpkWoboaPlBIlnBDz3v4g/exec';
+
+  // 表示文言と金額ルールの一元管理
+  const POLICY = {
+    enrollmentFee: 5000,
+    annualFee: 3500,
+    annualFeeTiming: '入会時および毎年3月',
+    courseMonthlyFee: {
+      beginner: 6700,
+      advance: 9400,
+      pro: 13000,
+      kids: 5000,
+      dropin: 2500
+    },
+    termsVersion: '2026-04'
+  };
 
   // ─── Course Selection ───
   const courseOptions = document.querySelectorAll('.course-option');
@@ -832,8 +944,35 @@
       paypal.classList.remove('disabled');
       bank.classList.remove('disabled');
       cash.classList.add('disabled');
-      note.textContent = 'クレジットカード(PayPal)または口座振替のご登録が必要です。';
+      note.textContent = '口座振替（NSS）が主軸です。必要に応じてクレジットカード(PayPal)もご利用いただけます。';
     }
+    updateFeeEstimate(course);
+  }
+
+  function formatYen(v) {
+    return '¥' + Number(v).toLocaleString('ja-JP');
+  }
+
+  function updateFeeEstimate(course) {
+    if (!course) {
+      feeEstimateMain.textContent = 'コースを選択すると金額が表示されます';
+      feeEstimateSub.textContent = '入会金 + 年会費 + 初月会費（または参加費）を表示します。';
+      return;
+    }
+    if (course === 'dropin') {
+      feeEstimateMain.textContent = 'ドロップイン: ' + formatYen(POLICY.courseMonthlyFee.dropin) + ' / 回';
+      feeEstimateSub.textContent = 'ドロップインは都度払いです。年会費等の扱いは規約・運用案内をご確認ください。';
+      return;
+    }
+    var monthly = POLICY.courseMonthlyFee[course];
+    var total = POLICY.enrollmentFee + POLICY.annualFee + monthly;
+    feeEstimateMain.textContent =
+      formatYen(POLICY.enrollmentFee) + '（入会金） + ' +
+      formatYen(POLICY.annualFee) + '（年会費） + ' +
+      formatYen(monthly) + '（初月会費） = ' +
+      formatYen(total);
+    feeEstimateSub.textContent =
+      '上記は通常入会時の目安です。同一家族2人目以降は入会金無料です。年会費徴収: ' + POLICY.annualFeeTiming + '。';
   }
 
   function updateGuardianField() {
@@ -923,6 +1062,33 @@
       valid = false;
     }
 
+    const emailSub = document.getElementById('emailSub');
+    if (emailSub.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailSub.value)) {
+      emailSub.classList.add('error');
+      emailSub.parentElement.querySelector('.error-msg').classList.add('show');
+      valid = false;
+    }
+
+    function isPhoneLike(v) {
+      var digits = String(v || '').replace(/\D/g, '');
+      return digits.length >= 10 && digits.length <= 11;
+    }
+
+    const tel = document.getElementById('tel');
+    if (tel.value && !isPhoneLike(tel.value)) {
+      tel.classList.add('error');
+      tel.parentElement.querySelector('.error-msg').textContent = '電話番号の形式が正しくありません';
+      tel.parentElement.querySelector('.error-msg').classList.add('show');
+      valid = false;
+    }
+
+    const telSub = document.getElementById('telSub');
+    if (telSub.value && !isPhoneLike(telSub.value)) {
+      telSub.classList.add('error');
+      telSub.parentElement.querySelector('.error-msg').classList.add('show');
+      valid = false;
+    }
+
     if (!document.querySelector('input[name="payment"]:checked')) {
       document.getElementById('paymentError').classList.add('show');
       valid = false;
@@ -942,7 +1108,7 @@
   }
 
   // ─── Clear errors on input ───
-  form.querySelectorAll('input, select').forEach(el => {
+  form.querySelectorAll('input, textarea, select').forEach(el => {
     const clearError = function() {
       this.classList.remove('error');
       const wrap = this.closest('.agreement-check') || this.parentElement;
@@ -966,15 +1132,18 @@
       'フリガナ': document.getElementById('furigana').value.trim(),
       '生年月日': document.getElementById('birthday').value,
       '電話番号': document.getElementById('tel').value.trim(),
+      '予備電話番号': document.getElementById('telSub').value.trim(),
       'メールアドレス': document.getElementById('email').value.trim(),
+      '予備メールアドレス': document.getElementById('emailSub').value.trim(),
       '郵便番号': document.getElementById('postal').value.trim(),
       '住所1': document.getElementById('address1').value.trim(),
       '住所2': document.getElementById('address2').value.trim(),
       '保護者氏名': document.getElementById('guardian').value.trim(),
+      '備考': document.getElementById('notes').value.trim(),
       '支払い方法': document.querySelector('input[name="payment"]:checked').value,
       '年会費規定同意': document.getElementById('agreeTerms').checked ? '同意' : '未同意',
       '個人情報取扱同意': document.getElementById('agreePrivacy').checked ? '同意' : '未同意',
-      '規約バージョン': '2026-04'
+      '規約バージョン': POLICY.termsVersion
     };
   }
 
@@ -983,8 +1152,10 @@
     let html = '';
     const labels = {
       '入会申込日':'申込日時','コース':'コース','氏名':'氏名','フリガナ':'フリガナ',
-      '生年月日':'生年月日','電話番号':'電話番号','メールアドレス':'メールアドレス',
+      '生年月日':'生年月日','電話番号':'電話番号','予備電話番号':'予備電話番号','メールアドレス':'メールアドレス',
+      '予備メールアドレス':'予備メールアドレス',
       '郵便番号':'郵便番号','住所1':'住所1','住所2':'住所2','保護者氏名':'保護者氏名','支払い方法':'支払い方法',
+      '備考':'備考',
       '年会費規定同意':'年会費規定同意','個人情報取扱同意':'個人情報同意','規約バージョン':'規約バージョン'
     };
     for (const [key, label] of Object.entries(labels)) {
@@ -1028,7 +1199,7 @@
     if (!SCRIPT_URL) {
       // Google Apps Script URL が未設定の場合はデモモード
       console.log('送信データ:', data);
-      setTimeout(showSuccess, 1200);
+      setTimeout(function () { showSuccess(data); }, 1200);
       return;
     }
 
@@ -1038,7 +1209,7 @@
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
     })
-    .then(() => showSuccess())
+    .then(() => showSuccess(data))
     .catch(err => {
       console.error(err);
       alert('送信に失敗しました。お手数ですが、再度お試しください。');
@@ -1047,13 +1218,28 @@
     });
   });
 
-  function showSuccess() {
+  function showSuccess(data) {
+    renderSuccessNextStep(data && data['支払い方法'] ? data['支払い方法'] : '');
     confirmOverlay.classList.remove('active');
     document.body.style.overflow = '';
     formContainer.style.display = 'none';
     successScreen.classList.add('active');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
+
+  function renderSuccessNextStep(paymentMethod) {
+    var guidance = {
+      '口座振替':
+        '次のご案内: 口座登録手続きのご案内を担当よりお送りします。到着後、期日までに登録をお願いします。',
+      'クレジットカード(PayPal)':
+        '次のご案内: PayPal決済ページのご案内を担当よりお送りします。案内到着後にお手続きをお願いします。',
+      '現金':
+        '次のご案内: 初回お支払い方法（教室での現金お支払い）の詳細を担当よりご連絡します。'
+    };
+    successNextStep.textContent = guidance[paymentMethod] || '次のご案内: お支払い方法に応じたご連絡を担当より差し上げます。';
+  }
+
+  updateFeeEstimate(null);
 
 })();
 </script>

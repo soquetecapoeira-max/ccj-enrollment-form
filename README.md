@@ -8,6 +8,7 @@
 
 - 入会: https://soquetecapoeira-max.github.io/ccj-enrollment-form/
 - プラン変更（会員向け）: https://soquetecapoeira-max.github.io/ccj-enrollment-form/plan-change.html
+- 退会手続き事前連絡（会員向け）: https://soquetecapoeira-max.github.io/ccj-enrollment-form/leave-request.html
 
 ## 機能
 
@@ -18,9 +19,12 @@
 - キッズクラス選択時は保護者氏名が必須に
 - 郵便番号から住所自動入力（zipcloud API）
 - 入力内容の確認画面
+- 支払い方法に応じた完了画面の次アクション表示
+- 任意項目（予備電話番号 / 予備メールアドレス / 備考）対応
 - Google スプレッドシートへのデータ自動保存
 - 申し込み者への確認メール自動送信（任意）
 - **プラン変更**（`plan-change.html`）— 会員向け。申請内容はスプレッドシートの「プラン変更」シートに追記（初回送信時にシートが無ければ GAS が作成）
+- **退会手続き事前連絡**（`leave-request.html`）— 会員向け。申請内容はスプレッドシートの「退会手続き」シートに追記（初回送信時にシートが無ければ GAS が作成）
 
 ## セットアップ手順
 
@@ -29,9 +33,9 @@
 1. [Google スプレッドシート](https://sheets.google.com/)を新規作成
 2. 1行目（ヘッダー）に以下を入力：
 
-| A | B | C | D | E | F | G | H | I | J | K | L | M | N | O |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 入会申込日 | コース | 氏名 | フリガナ | 生年月日 | 電話番号 | メールアドレス | 郵便番号 | 住所1 | 住所2 | 保護者氏名 | 支払い方法 | 年会費規定同意 | 個人情報取扱同意 | 規約バージョン |
+| A | B | C | D | E | F | G | H | I | J | K | L | M | N | O | P | Q | R |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 入会申込日 | コース | 氏名 | フリガナ | 生年月日 | 電話番号 | 予備電話番号 | メールアドレス | 予備メールアドレス | 郵便番号 | 住所1 | 住所2 | 保護者氏名 | 支払い方法 | 年会費規定同意 | 個人情報取扱同意 | 規約バージョン | 備考 |
 
 ### 2. Google Apps Script の設定
 
@@ -74,9 +78,12 @@ const SCRIPT_URL = 'https://script.google.com/macros/s/xxxxxxxxxxxx/exec';
 ```
 ccj-enrollment-form/
 ├── index.html              # 入会フォーム（HTML + CSS + JS 一体型）
+├── terms-adult.html        # 入会規約（大人向け）表示ページ
 ├── plan-change.html        # プラン変更（会員向け）
+├── leave-request.html      # 退会手続き事前連絡（会員向け）
 ├── google-apps-script.js   # Google Apps Script（スプレッドシート連携用）
 ├── docs/
+│   ├── contract-alignment-report.md # 紙とWebの整合差分と対応履歴
 │   └── member-services.md  # プラン変更・休会・大会など拡張の設計メモ
 ├── PROGRESS.md             # 進捗・デプロイ情報のメモ（運用向け）
 └── README.md               # このファイル
@@ -111,3 +118,5 @@ ccj-enrollment-form/
 - 確認メール機能を使わない場合は `google-apps-script.js` 内の `sendConfirmationEmail(data);` の行を削除してください
 - プラン変更の確認メールを止める場合は `handlePlanChange_` 内の `sendPlanChangeConfirmationEmail_(p);` を削除してください
 - 入会用データは、シート名が **入会** のタブがあればそこに、なければ **ブック内の先頭シート** に書き込みます
+- 規約の正本は `terms-adult.html` とし、旧紙規約は新規案内で使用しません
+- 規約変更時は `terms-adult.html` を更新し、`docs/contract-alignment-report.md` に承認記録を追記してください

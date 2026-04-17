@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>退会手続きの事前連絡 | CCJ.CAPOEIRA OSAKA</title>
+  <style>
+    :root {
+      --green: #00854A;
+      --green-light: #00A85A;
+      --yellow: #F5C518;
+      --bg: #FAFAF7;
+      --card: #FFFFFF;
+      --text: #1A1A1A;
+      --text-muted: #6B7280;
+      --border: #E5E7EB;
+      --radius: 12px;
+      --shadow: 0 4px 6px rgba(0,0,0,.07), 0 10px 40px rgba(0,0,0,.08);
+      --transition: .25s cubic-bezier(.4,0,.2,1);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Hiragino Kaku Gothic ProN","Hiragino Sans",Meiryo,"Noto Sans JP",sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+    .hero {
+      background: linear-gradient(135deg, var(--green) 0%, var(--green-light) 55%, var(--yellow) 100%);
+      text-align: center;
+      color: #fff;
+      padding: 42px 16px 56px;
+    }
+    .hero h1 { font-size: clamp(24px, 4vw, 34px); margin-bottom: 8px; }
+    .hero p { opacity: 0.95; font-size: 14px; }
+    .container {
+      max-width: 680px;
+      margin: -24px auto 46px;
+      padding: 0 14px;
+    }
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 30px 24px;
+      margin-bottom: 16px;
+    }
+    .title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--green);
+      border-bottom: 2px solid var(--yellow);
+      padding-bottom: 10px;
+      margin-bottom: 16px;
+    }
+    .notice {
+      border: 1px solid #B8E5CB;
+      background: #F3FCF7;
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 18px;
+      font-size: 13px;
+      color: #14532D;
+    }
+    .field { margin-bottom: 14px; }
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .required { color: #ef4444; font-size: 11px; margin-left: 4px; }
+    .optional { color: var(--text-muted); font-size: 11px; margin-left: 4px; font-weight: 400; }
+    input, textarea {
+      width: 100%;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 15px;
+      font-family: inherit;
+      transition: var(--transition);
+    }
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px rgba(0,133,74,.12);
+    }
+    textarea { min-height: 96px; resize: vertical; }
+    .error { border-color: #ef4444; box-shadow: 0 0 0 3px rgba(239,68,68,.12); }
+    .error-msg {
+      display: none;
+      margin-top: 4px;
+      font-size: 12px;
+      color: #ef4444;
+    }
+    .error-msg.show { display: block; }
+    .btn {
+      width: 100%;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--green) 0%, var(--green-light) 100%);
+      color: #fff;
+      font-size: 16px;
+      font-weight: 700;
+      padding: 14px;
+      cursor: pointer;
+    }
+    .btn:disabled { opacity: .6; cursor: not-allowed; }
+    .note {
+      margin-top: 12px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+    .note a { color: var(--green); }
+    .success {
+      display: none;
+      text-align: center;
+      color: var(--text-muted);
+    }
+    .success.active { display: block; }
+    .success h2 {
+      color: var(--green);
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    @media (max-width: 540px) {
+      .row { grid-template-columns: 1fr; }
+      .card { padding: 24px 18px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <h1>退会手続きの事前連絡フォーム</h1>
+    <p>退会は事前連絡のうえ、手続き予約が必要です。こちらは予約のための事前連絡フォームです。</p>
+  </header>
+
+  <main class="container" id="formContainer">
+    <form class="card" id="leaveForm" novalidate>
+      <h2 class="title">ご連絡内容</h2>
+      <div class="notice">
+        電話・メールのみでの退会手続き完了はできません。<br>
+        送信後、担当より手続き予約についてご連絡します。
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="name">氏名<span class="required">必須</span></label>
+          <input id="name" name="name" type="text" required>
+          <div class="error-msg">氏名を入力してください</div>
+        </div>
+        <div class="field">
+          <label for="tel">電話番号<span class="required">必須</span></label>
+          <input id="tel" name="tel" type="tel" placeholder="090-1234-5678" required>
+          <div class="error-msg">電話番号を入力してください</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="email">メールアドレス<span class="required">必須</span></label>
+          <input id="email" name="email" type="email" placeholder="example@email.com" required>
+          <div class="error-msg">正しいメールアドレスを入力してください</div>
+        </div>
+        <div class="field">
+          <label for="leaveMonth">退会希望月<span class="required">必須</span></label>
+          <input id="leaveMonth" name="leaveMonth" type="month" required>
+          <div class="error-msg">退会希望月を入力してください</div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="lastLessonDate">最終参加予定日<span class="optional">任意</span></label>
+        <input id="lastLessonDate" name="lastLessonDate" type="date">
+      </div>
+
+      <div class="field">
+        <label for="reason">退会理由<span class="optional">任意</span></label>
+        <textarea id="reason" name="reason" placeholder="差し支えない範囲でご記入ください"></textarea>
+      </div>
+
+      <div class="field">
+        <label for="notes">備考<span class="optional">任意</span></label>
+        <textarea id="notes" name="notes" placeholder="手続き希望日時などあればご記入ください"></textarea>
+      </div>
+
+      <button type="button" class="btn" id="submitBtn">内容を送信する</button>
+      <p class="note">
+        個人情報の取り扱いは
+        <a href="https://cordao.org/free/privacy" target="_blank" rel="noopener noreferrer">プライバシーポリシー</a>
+        をご確認ください。
+      </p>
+    </form>
+  </main>
+
+  <div class="container">
+    <section class="card success" id="successScreen">
+      <h2>ご連絡ありがとうございます</h2>
+      <p>退会手続きの事前連絡を受け付けました。担当より手続き予約についてご連絡いたします。</p>
+    </section>
+  </div>
+
+  <script>
+  (function () {
+    var form = document.getElementById('leaveForm');
+    var formContainer = document.getElementById('formContainer');
+    var successScreen = document.getElementById('successScreen');
+    var submitBtn = document.getElementById('submitBtn');
+    var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxrVHm38s5AjyAVRdQEeIRBtjZAQ4tnCT2deRMDx0VC7XaiZtpkWoboaPlBIlnBDz3v4g/exec';
+
+    function clearErr(el) {
+      el.classList.remove('error');
+      var msg = el.parentElement.querySelector('.error-msg');
+      if (msg) msg.classList.remove('show');
+    }
+
+    form.querySelectorAll('input, textarea').forEach(function (el) {
+      el.addEventListener('input', function () { clearErr(el); });
+    });
+
+    function invalid(el, msgText) {
+      el.classList.add('error');
+      var msg = el.parentElement.querySelector('.error-msg');
+      if (!msg) return;
+      if (msgText) msg.textContent = msgText;
+      msg.classList.add('show');
+    }
+
+    function validate() {
+      var ok = true;
+      ['name', 'tel', 'email', 'leaveMonth'].forEach(function (id) {
+        var el = document.getElementById(id);
+        if (!el.value.trim()) {
+          invalid(el);
+          ok = false;
+        }
+      });
+      var email = document.getElementById('email');
+      if (email.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
+        invalid(email, '正しいメールアドレスを入力してください');
+        ok = false;
+      }
+      var tel = document.getElementById('tel');
+      var digits = tel.value.replace(/\D/g, '');
+      if (tel.value && (digits.length < 10 || digits.length > 11)) {
+        invalid(tel, '電話番号の形式が正しくありません');
+        ok = false;
+      }
+      return ok;
+    }
+
+    function collect() {
+      return {
+        formVersion: 1,
+        formType: 'leave_request',
+        submittedAt: new Date().toISOString(),
+        payload: {
+          '氏名': document.getElementById('name').value.trim(),
+          '電話番号': document.getElementById('tel').value.trim(),
+          'メールアドレス': document.getElementById('email').value.trim(),
+          '退会希望月': document.getElementById('leaveMonth').value,
+          '最終参加予定日': document.getElementById('lastLessonDate').value,
+          '退会理由': document.getElementById('reason').value.trim(),
+          '備考': document.getElementById('notes').value.trim()
+        }
+      };
+    }
+
+    submitBtn.addEventListener('click', function () {
+      if (!validate()) return;
+      submitBtn.disabled = true;
+      submitBtn.textContent = '送信中...';
+      var data = collect();
+
+      if (!SCRIPT_URL) {
+        console.log(data);
+        formContainer.style.display = 'none';
+        successScreen.classList.add('active');
+        return;
+      }
+
+      fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      }).then(function () {
+        formContainer.style.display = 'none';
+        successScreen.classList.add('active');
+      }).catch(function () {
+        alert('送信に失敗しました。時間を置いて再度お試しください。');
+        submitBtn.disabled = false;
+        submitBtn.textContent = '内容を送信する';
+      });
+    });
+  })();
+  </script>
+</body>
+</html>

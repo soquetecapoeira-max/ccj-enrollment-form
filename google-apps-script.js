@@ -7,7 +7,7 @@
 //
 // 1. Google スプレッドシートを新規作成する
 //    - 1行目（ヘッダー）に以下を入力（入会用・先頭シートまたは「入会」シート）:
-//      A1: 入会申込日 … L1: 支払い方法（README の表どおり）
+//      A1: 入会申込日 … R1: 備考（README の表どおり）
 //
 // 2. プラン変更用シート「プラン変更」は、初回のプラン変更送信時に自動作成されます。
 //    手動で用意する場合は 1 行目を次のとおりにしてください:
@@ -28,6 +28,8 @@ function doPost(e) {
 
     if (raw.formType === 'plan_change' && raw.payload) {
       handlePlanChange_(ss, raw);
+    } else if (raw.formType === 'leave_request' && raw.payload) {
+      handleLeaveRequest_(ss, raw);
     } else {
       handleEnrollmentLegacy_(ss, raw);
     }
@@ -56,7 +58,9 @@ function handleEnrollmentLegacy_(ss, data) {
     data['フリガナ'],
     data['生年月日'],
     data['電話番号'],
+    data['予備電話番号'] || '',
     data['メールアドレス'],
+    data['予備メールアドレス'] || '',
     data['郵便番号'],
     data['住所1'],
     data['住所2'],
@@ -64,7 +68,8 @@ function handleEnrollmentLegacy_(ss, data) {
     data['支払い方法'],
     data['年会費規定同意'] || '',
     data['個人情報取扱同意'] || '',
-    data['規約バージョン'] || ''
+    data['規約バージョン'] || '',
+    data['備考'] || ''
   ];
 
   sheet.appendRow(row);
@@ -79,6 +84,17 @@ var PLAN_CHANGE_HEADERS_ = [
   '現コース',
   '希望コース',
   '希望反映',
+  '備考'
+];
+
+var LEAVE_REQUEST_HEADERS_ = [
+  '申請日時',
+  '氏名',
+  'メールアドレス',
+  '電話番号',
+  '退会希望月',
+  '最終参加予定日',
+  '退会理由',
   '備考'
 ];
 
@@ -106,6 +122,29 @@ function handlePlanChange_(ss, root) {
   sendPlanChangeConfirmationEmail_(p);
 }
 
+/** 退会手続き事前連絡（formType + payload） */
+function handleLeaveRequest_(ss, root) {
+  var p = root.payload;
+  var sheet = ss.getSheetByName('退会手続き');
+  if (!sheet) {
+    sheet = ss.insertSheet('退会手続き');
+    sheet.appendRow(LEAVE_REQUEST_HEADERS_);
+  }
+
+  var ts = Utilities.formatDate(new Date(), 'Asia/Tokyo', 'yyyy/MM/dd HH:mm');
+  var row = [
+    ts,
+    p['氏名'] || '',
+    p['メールアドレス'] || '',
+    p['電話番号'] || '',
+    p['退会希望月'] || '',
+    p['最終参加予定日'] || '',
+    p['退会理由'] || '',
+    p['備考'] || ''
+  ];
+  sheet.appendRow(row);
+}
+
 /**
  * 申し込み者に確認メールを自動送信する（任意機能）
  * 不要な場合は handleEnrollmentLegacy_ 内の sendConfirmationEmail(data); を削除してください
@@ -122,7 +161,9 @@ function sendConfirmationEmail(data) {
     + '■ フリガナ: ' + data['フリガナ'] + '\n'
     + '■ 生年月日: ' + data['生年月日'] + '\n'
     + '■ 電話番号: ' + data['電話番号'] + '\n'
+    + (data['予備電話番号'] ? '■ 予備電話番号: ' + data['予備電話番号'] + '\n' : '')
     + '■ メールアドレス: ' + data['メールアドレス'] + '\n'
+    + (data['予備メールアドレス'] ? '■ 予備メールアドレス: ' + data['予備メールアドレス'] + '\n' : '')
     + '■ 郵便番号: ' + data['郵便番号'] + '\n'
     + '■ 住所: ' + data['住所1'] + ' ' + (data['住所2'] || '') + '\n'
     + (data['保護者氏名'] ? '■ 保護者氏名: ' + data['保護者氏名'] + '\n' : '')
@@ -130,6 +171,7 @@ function sendConfirmationEmail(data) {
     + '■ 年会費: 入会時および毎年3月に3,500円\n'
     + '■ 規約同意: ' + (data['年会費規定同意'] || '同意') + '\n'
     + '■ 個人情報同意: ' + (data['個人情報取扱同意'] || '同意') + '\n'
+    + (data['備考'] ? '■ 備考: ' + data['備考'] + '\n' : '')
     + '━━━━━━━━━━━━━━━━━━━━\n\n'
     + '担当者よりご連絡を差し上げますので、\n'
     + 'しばらくお待ちくださいませ。\n\n'
