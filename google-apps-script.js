@@ -17,7 +17,7 @@
 //
 // 4.「デプロイ」→「新しいデプロイ」→ ウェブアプリ（実行: 自分 / アクセス: 全員）
 //
-// 5. 表示された URL を index.html および plan-change.html の SCRIPT_URL に設定
+// 5. 表示された URL を index.html / plan-change.html / leave-request.html の SCRIPT_URL に設定
 //
 // ============================================================
 
@@ -122,7 +122,7 @@ function handlePlanChange_(ss, root) {
   sendPlanChangeConfirmationEmail_(p);
 }
 
-/** 退会手続き事前連絡（formType + payload） */
+/** 退会手続き完了フォーム（formType + payload） */
 function handleLeaveRequest_(ss, root) {
   var p = root.payload;
   var sheet = ss.getSheetByName('退会手続き');
@@ -217,6 +217,6 @@ function sendPlanChangeConfirmationEmail_(p) {
  */
 function doGet() {
   return ContentService
-    .createTextOutput('CCJ.CAPOEIRA OSAKA フォーム API（入会・プラン変更） is running.')
+    .createTextOutput('CCJ.CAPOEIRA OSAKA フォーム API（入会・プラン変更・退会） is running.')
     .setMimeType(ContentService.MimeType.TEXT);
 }

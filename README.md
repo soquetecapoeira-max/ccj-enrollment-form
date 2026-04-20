@@ -8,7 +8,7 @@
 
 - 入会: https://soquetecapoeira-max.github.io/ccj-enrollment-form/
 - プラン変更（会員向け）: https://soquetecapoeira-max.github.io/ccj-enrollment-form/plan-change.html
-- 大会手続き（会員向け）: https://soquetecapoeira-max.github.io/ccj-enrollment-form/leave-request.html
+- 退会手続き完了フォーム（会員向け）: https://soquetecapoeira-max.github.io/ccj-enrollment-form/leave-request.html
 
 ## 機能
 
@@ -24,7 +24,7 @@
 - Google スプレッドシートへのデータ自動保存
 - 申し込み者への確認メール自動送信（任意）
 - **プラン変更**（`plan-change.html`）— 会員向け。申請内容はスプレッドシートの「プラン変更」シートに追記（初回送信時にシートが無ければ GAS が作成）
-- **大会手続き**（`leave-request.html`）— 会員向け。申請内容はスプレッドシートの「大会手続き」シートに追記し、送信時に `ccj.osaka@gmail.com` へ通知メールを自動送信
+- **退会手続き完了フォーム**（`leave-request.html`）— 会員向け。送信内容はスプレッドシートの「退会手続き」シートに保存され、フォーム送信をもって手続き完了
 
 ## セットアップ手順
 
@@ -55,7 +55,7 @@
 
 ### 4. フォームとの連携
 
-このリポジトリの `index.html`・`plan-change.html`・`leave-request.html` には、運用用の Google Apps Script の **同一 URL が設定されています**（1 本のウェブアプリで入会 / プラン変更 / 大会手続きを受け付けます）。自分用のスプレッドシートとスクリプトを新規に用意した場合だけ、**3ファイルすべて**の `SCRIPT_URL` を書き換えてください。
+このリポジトリの `index.html`・`plan-change.html`・`leave-request.html` には、運用用の Google Apps Script の **同一 URL が設定されています**（1 本のウェブアプリで入会 / プラン変更 / 退会手続きを受け付けます）。自分用のスプレッドシートとスクリプトを新規に用意した場合だけ、**3ファイルすべて**の `SCRIPT_URL` を書き換えてください。
 
 ```javascript
 const SCRIPT_URL = 'https://script.google.com/macros/s/xxxxxxxxxxxx/exec';
@@ -63,7 +63,7 @@ const SCRIPT_URL = 'https://script.google.com/macros/s/xxxxxxxxxxxx/exec';
 
 初回セットアップ時は空文字のままにしておき、デプロイ後に貼り付けても構いません。未設定のときはデモモード（コンソール出力のみ）で動作します。
 
-**プラン変更 / 大会手続きを使うとき:** スプレッドシートに紐づいた Apps Script のエディタを開き、リポジトリの `google-apps-script.js` の内容に**置き換え**たうえで、「デプロイ」→「デプロイを管理」→ 既存ウェブアプリの **新バージョンをデプロイ** してください（コード差し替えのみでは反映されません）。
+**プラン変更 / 退会手続きを使うとき:** スプレッドシートに紐づいた Apps Script のエディタを開き、リポジトリの `google-apps-script.js` の内容に**置き換え**たうえで、「デプロイ」→「デプロイを管理」→ 既存ウェブアプリの **新バージョンをデプロイ** してください（コード差し替えのみでは反映されません）。
 
 ### 5. 公開
 
@@ -80,7 +80,7 @@ ccj-enrollment-form/
 ├── index.html              # 入会フォーム（HTML + CSS + JS 一体型）
 ├── terms-adult.html        # 入会規約（大人向け）表示ページ
 ├── plan-change.html        # プラン変更（会員向け）
-├── leave-request.html      # 大会手続きフォーム（会員向け）
+├── leave-request.html      # 退会手続き完了フォーム（会員向け）
 ├── google-apps-script.js   # Google Apps Script（スプレッドシート連携用）
 ├── docs/
 │   ├── contract-alignment-report.md # 紙とWebの整合差分と対応履歴
