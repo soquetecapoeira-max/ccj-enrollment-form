@@ -28,8 +28,8 @@ function doPost(e) {
 
     if (raw.formType === 'plan_change' && raw.payload) {
       handlePlanChange_(ss, raw);
-    } else if (raw.formType === 'tournament_entry' && raw.payload) {
-      handleTournamentEntry_(ss, raw);
+    } else if (raw.formType === 'leave_request' && raw.payload) {
+      handleLeaveRequest_(ss, raw);
     } else {
       handleEnrollmentLegacy_(ss, raw);
     }
@@ -87,14 +87,14 @@ var PLAN_CHANGE_HEADERS_ = [
   '備考'
 ];
 
-var TOURNAMENT_ENTRY_HEADERS_ = [
+var LEAVE_REQUEST_HEADERS_ = [
   '申請日時',
   '氏名',
   'メールアドレス',
   '電話番号',
-  '大会名',
-  '参加区分',
-  '所属コース',
+  '退会希望月',
+  '最終参加予定日',
+  '退会理由',
   '備考'
 ];
 
@@ -122,13 +122,13 @@ function handlePlanChange_(ss, root) {
   sendPlanChangeConfirmationEmail_(p);
 }
 
-/** 大会手続き（formType + payload） */
-function handleTournamentEntry_(ss, root) {
+/** 退会手続き事前連絡（formType + payload） */
+function handleLeaveRequest_(ss, root) {
   var p = root.payload;
-  var sheet = ss.getSheetByName('大会手続き');
+  var sheet = ss.getSheetByName('退会手続き');
   if (!sheet) {
-    sheet = ss.insertSheet('大会手続き');
-    sheet.appendRow(TOURNAMENT_ENTRY_HEADERS_);
+    sheet = ss.insertSheet('退会手続き');
+    sheet.appendRow(LEAVE_REQUEST_HEADERS_);
   }
 
   var ts = Utilities.formatDate(new Date(), 'Asia/Tokyo', 'yyyy/MM/dd HH:mm');
@@ -137,30 +137,12 @@ function handleTournamentEntry_(ss, root) {
     p['氏名'] || '',
     p['メールアドレス'] || '',
     p['電話番号'] || '',
-    p['大会名'] || '',
-    p['参加区分'] || '',
-    p['所属コース'] || '',
+    p['退会希望月'] || '',
+    p['最終参加予定日'] || '',
+    p['退会理由'] || '',
     p['備考'] || ''
   ];
   sheet.appendRow(row);
-  sendTournamentGuideEmail_(p);
-}
-
-/** 大会手続き受付通知を指定アドレスへ送信 */
-function sendTournamentGuideEmail_(p) {
-  var recipient = 'ccj.osaka@gmail.com';
-  var subject = '【CCJ.CAPOEIRA OSAKA】大会手続きフォーム送信通知';
-  var body = '大会手続きフォームが送信されました。\n\n'
-    + '━━━━━━━━━━━━━━━━━━━━\n'
-    + '■ 氏名: ' + (p['氏名'] || '') + '\n'
-    + '■ 電話番号: ' + (p['電話番号'] || '') + '\n'
-    + '■ メールアドレス: ' + (p['メールアドレス'] || '') + '\n'
-    + '■ 大会名: ' + (p['大会名'] || '') + '\n'
-    + '■ 参加区分: ' + (p['参加区分'] || '') + '\n'
-    + '■ 所属コース: ' + (p['所属コース'] || '') + '\n'
-    + (p['備考'] ? '■ 備考: ' + p['備考'] + '\n' : '')
-    + '━━━━━━━━━━━━━━━━━━━━\n';
-  MailApp.sendEmail(recipient, subject, body);
 }
 
 /**
