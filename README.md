@@ -8,7 +8,7 @@
 
 - 入会: https://soquetecapoeira-max.github.io/ccj-enrollment-form/
 - プラン変更（会員向け）: https://soquetecapoeira-max.github.io/ccj-enrollment-form/plan-change.html
-- 退会手続き完了フォーム（会員向け）: https://soquetecapoeira-max.github.io/ccj-enrollment-form/leave-request.html
+- 退会のお手続き（会員向け）: https://soquetecapoeira-max.github.io/ccj-enrollment-form/leave-request.html
 
 ## 機能
 
@@ -24,7 +24,7 @@
 - Google スプレッドシートへのデータ自動保存
 - 申し込み者への確認メール自動送信（任意）
 - **プラン変更**（`plan-change.html`）— 会員向け。申請内容はスプレッドシートの「プラン変更」シートに追記（初回送信時にシートが無ければ GAS が作成）
-- **退会手続き完了フォーム**（`leave-request.html`）— 会員向け。送信内容はスプレッドシートの「退会手続き」シートに保存され、フォーム送信をもって手続き完了
+- **退会のお手続き**（`leave-request.html`）— 会員向け。送信内容はスプレッドシートの「退会手続き」シートに保存され、フォーム送信をもって手続き完了
 
 ## セットアップ手順
 
@@ -80,7 +80,7 @@ ccj-enrollment-form/
 ├── index.html              # 入会フォーム（HTML + CSS + JS 一体型）
 ├── terms-adult.html        # 入会規約（大人向け）表示ページ
 ├── plan-change.html        # プラン変更（会員向け）
-├── leave-request.html      # 退会手続き完了フォーム（会員向け）
+├── leave-request.html      # 退会のお手続き（会員向け）
 ├── google-apps-script.js   # Google Apps Script（スプレッドシート連携用）
 ├── docs/
 │   ├── contract-alignment-report.md # 紙とWebの整合差分と対応履歴

@@ -30,7 +30,7 @@
     - PayPal: 決済案内
     - 現金: 初回支払い案内
 - 退会手続き導線（`leave-request.html` / `google-apps-script.js`）
-  - 会員向け「退会手続き完了フォーム」を追加
+  - 会員向け「退会のお手続き」フォームを追加
   - `formType: leave_request` を GAS で受け、シート「退会手続き」に保存
 - 入力項目拡張（`index.html` / `google-apps-script.js`）
   - 任意追加: `予備電話番号` `予備メールアドレス` `備考`

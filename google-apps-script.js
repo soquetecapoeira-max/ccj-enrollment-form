@@ -122,7 +122,7 @@ function handlePlanChange_(ss, root) {
   sendPlanChangeConfirmationEmail_(p);
 }
 
-/** 退会手続き完了フォーム（formType + payload） */
+/** 退会のお手続きフォーム（formType + payload） */
 function handleLeaveRequest_(ss, root) {
   var p = root.payload;
   var sheet = ss.getSheetByName('退会手続き');
