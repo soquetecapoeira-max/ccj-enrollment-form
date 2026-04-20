@@ -344,6 +344,16 @@
       color: var(--text);
       margin-bottom: 4px;
     }
+    .fee-old {
+      color: var(--text-muted);
+      text-decoration: line-through;
+      margin-right: 4px;
+    }
+    .fee-campaign {
+      color: var(--green);
+      font-weight: 700;
+      margin-right: 4px;
+    }
     .fee-estimate-sub {
       font-size: 12px;
       color: var(--text-muted);
@@ -843,10 +853,6 @@
         <div class="section-title"><span class="icon">3</span>お支払い方法</div>
         <p id="paymentNote" style="font-size:13px;color:var(--text-muted);margin-bottom:16px;"></p>
         <div class="payment-grid" id="paymentGrid">
-          <label class="payment-option" data-method="paypal" id="optPaypal">
-            <input type="radio" name="payment" value="クレジットカード(PayPal)">
-            <span class="payment-label">クレジットカード(PayPal)</span>
-          </label>
           <label class="payment-option" data-method="bank" id="optBank">
             <input type="radio" name="payment" value="口座振替">
             <span class="payment-label">口座振替</span>
@@ -870,13 +876,13 @@
         <div class="fee-estimate" id="feeEstimate">
           <div class="fee-estimate-title">初回にかかる費用の目安（通常入会）</div>
           <div class="fee-estimate-main" id="feeEstimateMain">コースを選択すると金額が表示されます</div>
-          <div class="fee-estimate-sub" id="feeEstimateSub">入会金 + 年会費 + 初月会費（または参加費）を表示します。</div>
+          <div class="fee-estimate-sub" id="feeEstimateSub">入会金（キャンペーン免除）+ 年会費 + 初月会費（または参加費）を表示します。</div>
         </div>
         <div class="terms-card">
           <h3>重要事項（要約）</h3>
           <ul>
             <li>年会費は <strong>3,500円</strong> です（入会時、および毎年3月に年1回）。</li>
-            <li>初回目安は「入会金 5,000円 + 年会費 3,500円 + 初月会費」です（同一家族2人目以降は入会金無料）。</li>
+            <li>キャンペーン中につき、入会金 <s>5,000円</s> は現在いただいておりません（年会費3,500円と初月会費は必要です）。</li>
             <li>その他イベント参加は通常レッスンとは別料金です。</li>
             <li>プラン変更は変更月の1.5か月前までにお申し出ください。</li>
             <li>退会は事前連絡のうえ手続き予約が必要です（電話・メールのみでの退会手続き不可）。</li>
@@ -1023,7 +1029,6 @@
     if (!selected) return;
 
     const course = selected.closest('.course-option').dataset.course;
-    const paypal = document.getElementById('optPaypal');
     const bank = document.getElementById('optBank');
     const cash = document.getElementById('optCash');
     const note = document.getElementById('paymentNote');
@@ -1034,17 +1039,17 @@
     });
 
     if (course === 'dropin') {
-      paypal.classList.add('disabled');
       bank.classList.add('disabled');
       cash.classList.remove('disabled');
       cash.classList.add('selected');
       cash.querySelector('input').checked = true;
       note.textContent = 'ドロップインは現金のみのお支払いとなります。';
     } else {
-      paypal.classList.remove('disabled');
       bank.classList.remove('disabled');
       cash.classList.add('disabled');
-      note.textContent = '口座振替（NSS）が主軸です。必要に応じてクレジットカード(PayPal)もご利用いただけます。';
+      bank.classList.add('selected');
+      bank.querySelector('input').checked = true;
+      note.textContent = '通常コースは口座振替（NSS）でのお支払いをお願いしています。';
     }
     updateFeeEstimate(course);
   }
@@ -1056,7 +1061,7 @@
   function updateFeeEstimate(course) {
     if (!course) {
       feeEstimateMain.textContent = 'コースを選択すると金額が表示されます';
-      feeEstimateSub.textContent = '入会金 + 年会費 + 初月会費（または参加費）を表示します。';
+      feeEstimateSub.textContent = '入会金（キャンペーン免除）+ 年会費 + 初月会費（または参加費）を表示します。';
       return;
     }
     if (course === 'dropin') {
@@ -1065,14 +1070,15 @@
       return;
     }
     var monthly = POLICY.courseMonthlyFee[course];
-    var total = POLICY.enrollmentFee + POLICY.annualFee + monthly;
-    feeEstimateMain.textContent =
-      formatYen(POLICY.enrollmentFee) + '（入会金） + ' +
+    var total = POLICY.annualFee + monthly;
+    feeEstimateMain.innerHTML =
+      '<span class="fee-old">' + formatYen(POLICY.enrollmentFee) + '（入会金）</span>' +
+      '<span class="fee-campaign">キャンペーンにつき無料</span> + ' +
       formatYen(POLICY.annualFee) + '（年会費） + ' +
       formatYen(monthly) + '（初月会費） = ' +
       formatYen(total);
     feeEstimateSub.textContent =
-      '上記は通常入会時の目安です。同一家族2人目以降は入会金無料です。年会費徴収: ' + POLICY.annualFeeTiming + '。';
+      'キャンペーン期間中は入会金5,000円をいただいておりません。年会費徴収: ' + POLICY.annualFeeTiming + '。';
   }
 
   function updateGuardianField() {
