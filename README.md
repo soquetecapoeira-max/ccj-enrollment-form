@@ -55,7 +55,7 @@
 
 ### 4. フォームとの連携
 
-このリポジトリの `index.html` と `plan-change.html` には、運用用の Google Apps Script の **同一 URL が設定されています**（1 本のウェブアプリで入会とプラン変更の両方を受け付けます）。自分用のスプレッドシートとスクリプトを新規に用意した場合だけ、**両ファイル**の `SCRIPT_URL` を書き換えてください。
+このリポジトリの `index.html`・`plan-change.html`・`leave-request.html` には、運用用の Google Apps Script の **同一 URL が設定されています**（1 本のウェブアプリで入会 / プラン変更 / 退会事前連絡を受け付けます）。自分用のスプレッドシートとスクリプトを新規に用意した場合だけ、**3ファイルすべて**の `SCRIPT_URL` を書き換えてください。
 
 ```javascript
 const SCRIPT_URL = 'https://script.google.com/macros/s/xxxxxxxxxxxx/exec';
@@ -63,11 +63,11 @@ const SCRIPT_URL = 'https://script.google.com/macros/s/xxxxxxxxxxxx/exec';
 
 初回セットアップ時は空文字のままにしておき、デプロイ後に貼り付けても構いません。未設定のときはデモモード（コンソール出力のみ）で動作します。
 
-**プラン変更を使うとき:** スプレッドシートに紐づいた Apps Script のエディタを開き、リポジトリの `google-apps-script.js` の内容に**置き換え**たうえで、「デプロイ」→「デプロイを管理」→ 既存ウェブアプリの **新バージョンをデプロイ** してください（コード差し替えのみでは反映されません）。
+**プラン変更 / 退会事前連絡を使うとき:** スプレッドシートに紐づいた Apps Script のエディタを開き、リポジトリの `google-apps-script.js` の内容に**置き換え**たうえで、「デプロイ」→「デプロイを管理」→ 既存ウェブアプリの **新バージョンをデプロイ** してください（コード差し替えのみでは反映されません）。
 
 ### 5. 公開
 
-`index.html` を以下のいずれかの方法で公開：
+`index.html` / `plan-change.html` / `leave-request.html` / `terms-adult.html` を、以下のいずれかの方法で公開：
 
 - **既存のホームページに設置** — HTMLをグーペやサーバーにアップロード
 - **GitHub Pages** — このリポジトリのSettingsからPages有効化
